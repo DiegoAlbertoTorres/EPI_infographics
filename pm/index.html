@@ -1,0 +1,476 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<object id="svg-object" type="image/svg+xml" data="./pmfinal/root.svg" 	width="100%" height="100%";>Your browser does not support SVG</object>
+
+<!--
+<div class="footer" width="100%" height="20%">
+	<img src="logo.svg">
+</div>
+-->
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+var obj = document.getElementById("svg-object");
+obj.addEventListener("load", function() {
+        var object = obj.contentDocument;
+        
+        var satellite = object.getElementById("satellite");
+        var warped = object.getElementById("warped_city");
+        var city = object.getElementById("city");
+        var clouds = object.getElementById("clouds");
+        var orbits = object.getElementById("orbits");
+        var satOrbit = object.getElementById("satOrbit");
+        var healthOrbit = object.getElementById("healthOrbit");
+        var earth = object.getElementById("earth");
+        var health = object.getElementById("health");
+        var whiteCity = object.getElementById("white_city");
+        
+        var parTitle = object.getElementById("title_particulate");
+        var parSubtitle = object.getElementById("subtitle_particulate");
+        
+        var dirTitle = object.getElementById("title_direct");
+        var dirSubtitle = object.getElementById("subtitle_direct");
+        
+        var indirTitle = object.getElementById("title_indirect");
+        var indirSubtitle = object.getElementById("subtitle_indirect");
+       
+		// Layer 1 (particulate matter) effects
+		
+		// Hover effects
+		hoverColor(warped);
+		hoverColor(clouds);
+		hoverColor(satellite);
+		hoverColor(health);
+		hoverColor(earth);
+		
+		// Satellite
+        //~ animateOrbit(satellite, satOrbit);
+		
+        // Change to direct emissions (layer 2)!
+		
+		// Animate exit of layer 1
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "warped_city.click");
+		});
+		
+		// Animate entrance of layer2
+		$(object.getElementsByClassName("layer2")).each(function(){
+			animateEnter($(this), "warped_city.click");
+		});
+		
+		// Layer 2 effects
+		
+		// Change to indirect emissions (layer 3)!
+		
+		// Layer 3 effects
+		// Animate exit of layer 1
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "clouds.click");
+		});
+		
+		// Animate entrance of layer 3
+		$(object.getElementsByClassName("layer3")).each(function(){
+			animateEnter($(this), "clouds.click");
+		});
+		
+		// Change to temperature inversion (layer 4)!
+		
+		// Layer 4 effects
+		// Animate exit of layer 1
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "earth.click");
+		});
+		
+		// Animate entrance of layer 4
+		$(object.getElementsByClassName("layer4")).each(function(){
+			animateEnter($(this), "earth.click");
+		});
+		
+		animateEarth(earth);
+		
+		// Change to health impacts 1 (layer 5)!
+		// Animate exit of layer 1
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "health.click");
+		});
+		
+		// Animate entrance of layer 5
+		$(object.getElementsByClassName("layer5")).each(function(){
+			animateEnter($(this), "health.click");
+		});
+		
+		// Change to monitoring (layer 6)!
+		// Animate exit of layer 1
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "satellite.click");
+		});
+		
+		// Animate entrance of layer 6
+		$(object.getElementsByClassName("layer6")).each(function(){
+			animateEnter($(this), "satellite.click");
+		});
+});
+
+function animateEarth(obj){
+	var bbox = $(obj)[0].getBBox();
+	var cx = bbox.x + bbox.width/2;
+	var cy = bbox.y + bbox.height/2;
+	
+	var rot = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	rot.setAttribute("attributeName", "transform");
+	rot.setAttribute("type", "rotate");
+	rot.setAttribute("from", "0 " + cx + " " + cy);
+	rot.setAttribute("to", "230 " + cx + " " + cy);
+	rot.setAttribute("begin", "earth.click");
+	rot.setAttribute("dur", "1s");
+	rot.setAttribute("repeatCount", "1");
+	rot.setAttribute("fill", "freeze");
+	rot.setAttribute("additive", "sum");
+	$(obj).append(rot);
+	
+	var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	move.setAttribute("from", "0,0");
+	move.setAttribute("to", "220,40");
+	move.setAttribute("begin", "earth.click");
+	move.setAttribute("dur", "1s");
+	move.setAttribute("repeatCount", "1");
+	move.setAttribute("fill", "freeze");
+	$(obj).append(move);
+	
+	var scale = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	scale.setAttribute("attributeName", "transform");
+	scale.setAttribute("type", "scale");
+	scale.setAttribute("from", "1 1");
+	scale.setAttribute("to", "0.97 0.97");
+	scale.setAttribute("begin", "earth.click");
+	scale.setAttribute("dur", "1s");
+	scale.setAttribute("repeatCount", "1");
+	scale.setAttribute("fill", "freeze");
+	scale.setAttribute("additive", "sum");
+	$(obj).append(scale);
+}
+
+// Turns all white paths to blue on mouse hover!
+function hoverColor(object){
+	var types = "path, circle, rect";
+	if ($(object)[0].attributes.id.value == "earth"){
+		$(object).hover(function(){
+			$(object).find(types).each(function(){;
+				if (colorToHex($(this).css("fill")) == "#ffffff")
+					$(this).css("fill", "#2bc0d2");
+			});
+		}, 
+		function() {
+			$(object).find(types).each(function(){
+				if (colorToHex($(this).css("fill")) == "#2bc0d2")
+					$(this).css("fill", "#ffffff");
+			});
+		});
+	}
+	else {
+		$(object).hover(function(){
+			$(object).find(types).each(function(){;
+				var origFill = colorToHex($(this).css("fill"));
+				$(this)[0].attributes.originalFill = origFill;
+				$(this).css("fill", colMult(origFill, "#2bc0d2"));
+			});
+		}, 
+		function() {
+			$(object).find(types).each(function(){
+				$(this).css("fill", colorToHex($(this)[0].attributes.originalFill));
+			});
+		});
+	}
+}
+
+function animateEnter(obj, when){
+	var anim;
+	var effect = obj[0].attributes.enterEffect.value;
+	var delay = "0";
+	
+	if (obj[0].attributes.delay)
+		delay = obj[0].attributes.delay.value;
+		
+	if (effect == "slide"){
+		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		anim.setAttribute("from", "0,0");
+		
+		var bbox = obj[0].getBBox();
+		
+		if (obj[0].attributes.enter.value == "left"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("to", "1600,0");
+			else
+				anim.setAttribute("to", bbox.width +",0");
+		}
+		else if (obj[0].attributes.enter.value == "right"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("to", "-1600,0");
+			else
+				anim.setAttribute("to", "-" + bbox.width +",0");
+		}
+		else if (obj[0].attributes.enter.value == "up")
+			anim.setAttribute("to", "0,1200");
+			
+		else if (obj[0].attributes.enter.value == "down"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("to", "0,-1200");
+			else
+				anim.setAttribute("to", "0,-" + bbox.height);
+		}
+			
+		anim.setAttribute("begin", when + "+" + delay + "s");
+		anim.setAttribute("dur", "1s");
+		anim.setAttribute("fill", "freeze");
+		obj.append(anim);
+	}
+	else if (effect == "fade"){
+		var delay = 0;
+		if (obj[0].attributes.delay)
+			delay = obj[0].attributes.delay.value;
+			
+		console.log($(obj)[0]);
+			
+		obj.find("text, path, polyline").each(function(){				
+			// Save original opacity
+			var origOpacity = $(this).css("opacity");
+			
+			// Make invisible
+			$(this).css("opacity", "0");
+			
+			// Fade
+			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			subAnim.setAttribute("attributeName", "opacity");
+			subAnim.setAttribute("attributeType", "XML");
+			subAnim.setAttribute("from", "0");
+			subAnim.setAttribute("to", origOpacity);
+			subAnim.setAttribute("dur", "1s");
+			subAnim.setAttribute("begin", when + "+" + delay + "s");
+			subAnim.setAttribute("fill", "freeze");
+			$(this).append(subAnim);
+			
+			// Ugly hack to make text move into frame on click
+			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+			move.setAttribute("from", "0,0");
+			move.setAttribute("to", "1600,0");
+			move.setAttribute("begin", when);
+			move.setAttribute("dur", "0.1s");
+			move.setAttribute("repeatCount", "1");
+			move.setAttribute("fill", "freeze");
+			$(this).append(move);
+		});
+	}
+	else if (effect == "smoke"){
+		obj.find("circle").each(function(){
+			// Move into frame
+			$(this)[0].setAttribute("transform", "translate(" + 0 + ",15)");
+			// Save original radius
+			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
+			// Make them invisibly small
+			$(this)[0].setAttribute("r", "0.001");
+			
+			// Animated grow			
+			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			subAnim.setAttribute("attributeName", "r");
+			subAnim.setAttribute("attributeType", "XML");
+			subAnim.setAttribute("from", "0.01");
+			subAnim.setAttribute("to", $(this)[0].attributes.prevR.value);
+			subAnim.setAttribute("dur", "0.7s");
+			subAnim.setAttribute("begin", when + "+" + (1 + random(1)) + "s");
+			subAnim.setAttribute("fill", "freeze");
+			$(this).append(subAnim);
+		});
+	}
+	
+	else if (effect == "bubbles"){
+		var delay = 0;
+		if (obj[0].attributes.delay)
+			delay = parseInt(obj[0].attributes.delay.value);
+		obj.find("circle").each(function(){
+			var rand = 1 + random(1);
+			// Move into frame
+			//~ $(this)[0].setAttribute("transform", "translate(" + 0 + ",15)");
+			// Save original radius
+			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
+			// Make them invisibly small
+			$(this)[0].setAttribute("r", "0.01");
+			
+			// Animated grow			
+			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			subAnim.setAttribute("attributeName", "r");
+			subAnim.setAttribute("attributeType", "XML");
+			subAnim.setAttribute("from", "0.01");
+			subAnim.setAttribute("to", $(this)[0].attributes.prevR.value);
+			subAnim.setAttribute("dur", "0.7s");
+			subAnim.setAttribute("begin", when + "+" + (delay + rand) + "s");
+			subAnim.setAttribute("fill", "freeze");
+			$(this).append(subAnim);
+			
+			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+			move.setAttribute("from", "0,0");
+			move.setAttribute("to", "1600,0");
+			move.setAttribute("begin", when);
+			move.setAttribute("dur", "0.001s");
+			move.setAttribute("repeatCount", "1");
+			move.setAttribute("fill", "freeze");
+			$(this).append(move);
+		});
+		
+		obj.find("text, path").each(function(){
+			var rand = 1 + random(1);
+			// Text and arrow (path) fade
+			
+			// Extra delay for arrows
+			var delay2 = ($(this)[0].nodeName == "path") ? 1 : 0;
+						
+			// Move into frame
+			//~ $(this)[0].setAttribute("transform", "translate(" + 1600 + ",0)");
+			// Make invisible
+			$(this)[0].setAttribute("opacity", "0");
+			
+			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			subAnim.setAttribute("attributeName", "opacity");
+			subAnim.setAttribute("attributeType", "XML");
+			subAnim.setAttribute("from", "0");
+			subAnim.setAttribute("to", "1");
+			subAnim.setAttribute("dur", "0.7s");
+			subAnim.setAttribute("begin", when + "+" + (rand + delay + delay2) + "s");
+			subAnim.setAttribute("fill", "freeze");
+			$(this).append(subAnim);
+			
+			// Ugly hack to make text move into frame on click
+			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+			move.setAttribute("from", "0,0");
+			move.setAttribute("to", "1600,0");
+			move.setAttribute("begin", when + "+" + (rand + delay) + "s");
+			move.setAttribute("dur", "0.1s");
+			move.setAttribute("repeatCount", "1");
+			move.setAttribute("fill", "freeze");
+			$(this).append(move);
+		});
+	}
+	else if (effect == "fan"){
+		var delay = 0;
+		//~ console.log($(obj)[0].attributes.fan);
+		var to = ($(obj)[0].attributes.fan.value == "left") ? 1600 : -1600;
+		obj.children().each(function(){
+			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+			move.setAttribute("from", "0,0");
+			move.setAttribute("to", to + ",0");
+			move.setAttribute("begin", when + "+" + delay + "s");
+			move.setAttribute("dur", "1s");
+			move.setAttribute("repeatCount", "1");
+			move.setAttribute("fill", "freeze");
+			$(this).append(move);
+			
+			delay += 0.1;
+		});
+	}
+	
+}
+
+function animateExit(obj, when){
+	// Special exceptions go here
+	//~ console.log(when, obj[0].attributes.id.value);
+	if (when == "earth.click" && obj[0].attributes.id.value == "earth"){
+		return;
+	}
+	var anim;
+	var effect = obj[0].attributes.exitEffect.value;
+	if (effect == "slide"){
+		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		anim.setAttribute("from", "0,0");
+		if (obj[0].attributes.exit.value == "down")
+			anim.setAttribute("to", "0,1600");
+		else if (obj[0].attributes.exit.value == "right")
+			anim.setAttribute("to", "1600,0");
+		else if (obj[0].attributes.exit.value == "left")
+			anim.setAttribute("to", "-1600,0");
+		anim.setAttribute("begin", when);
+		anim.setAttribute("dur", "1s");
+		anim.setAttribute("fill", "freeze");
+		//~ anim.setAttribute("additive", "sum");
+	}
+	else if (effect == "fade"){
+		//~ obj[0].fadeOut();
+	}
+	obj.append(anim);
+}
+
+function animateOrbit(sat, orbit){
+	var coming = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	
+	
+	coming.setAttribute("path", "M 0,0 C 1271.2401,906.60818 1473.2777,736.47096 1354,634");
+	coming.setAttribute("begin", "0s");
+	coming.setAttribute("dur", "1s");
+	coming.setAttribute("repeatCount", "indefinite");
+	coming.setAttribute("fill", "freeze");
+	
+	//~ var going = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	//~ coming.setAttribute("id", "goingSat");
+	//~ going.setAttribute("path", "m 39.068,53.187 c -4.4697,-26.65562 -13.1558,-33.60357 -38.0678,-52.18734");
+	//~ going.setAttribute("begin", "comingSat.end");
+	//~ going.setAttribute("dur", "1s");
+	//~ going.setAttribute("repeatCount", "indefinite");
+	//~ coming.setAttribute("fill", "freeze");
+	
+	$(sat).append(coming);
+	//~ $(sat).append(going);
+	//~ console.log(coming, going);
+}
+
+function colMult(col1, col2){
+	col1 = hexToRgb(col1);
+	col2 = hexToRgb(col2);
+	
+	return rgbToHex(parseInt(col1.r * col2.r / 255), parseInt(col1.g * col2.g / 255), parseInt(col1.b * col2.b / 255));
+}
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+function colorToHex(color) {
+    if (color.substr(0, 1) === '#') {
+        return color;
+    }
+    var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+
+    var red = parseInt(digits[2]);
+    var green = parseInt(digits[3]);
+    var blue = parseInt(digits[4]);
+
+    var rgb = blue | (green << 8) | (red << 16);
+    return digits[1] + '#' + rgb.toString(16);
+};
+
+// Return random float in range [0,n)
+function random(n){
+	return Math.random() * n;
+}
+</script>
