@@ -14,7 +14,6 @@
 </div>
 -->
 
-
 </body>
 </html>
 
@@ -35,6 +34,14 @@ obj.addEventListener("load", function() {
         var health = object.getElementById("health");
         var whiteCity = object.getElementById("white_city");
         
+        var goback2 = object.getElementById("goback2");
+        var goback3 = object.getElementById("goback3");
+        var goback4 = object.getElementById("goback4");
+        var goback5 = object.getElementById("goback5");
+        var goback6 = object.getElementById("goback6");
+        var goback7 = object.getElementById("goback7");
+        var goback8 = object.getElementById("goback8");
+
         var parTitle = object.getElementById("title_particulate");
         var parSubtitle = object.getElementById("subtitle_particulate");
         
@@ -53,6 +60,14 @@ obj.addEventListener("load", function() {
 		hoverColor(health);
 		hoverColor(earth);
 		
+		hoverColor(goback2);
+		hoverColor(goback3);
+		hoverColor(goback4);
+		hoverColor(goback5);
+		hoverColor(goback6);
+		hoverColor(goback7);
+		hoverColor(goback8);
+				
 		// Satellite
         //~ animateOrbit(satellite, satOrbit);
 		
@@ -60,27 +75,45 @@ obj.addEventListener("load", function() {
 		
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "warped_city.click");
+			animateExit($(this), "warped_city.click", "goback2.click");
 		});
 		
 		// Animate entrance of layer2
 		$(object.getElementsByClassName("layer2")).each(function(){
-			animateEnter($(this), "warped_city.click");
+			animateEnter($(this), "warped_city.click", "goback2.click");
 		});
 		
 		// Layer 2 effects
+		
+		// Animate exit of layer 2 and reentry of layer 1
+		$(object.getElementsByClassName("layer2")).each(function(){
+			animateExit($(this), "goback2.click", "warped_city.click");
+		});
+		
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback2.click", "warped_city.click");
+		});
 		
 		// Change to indirect emissions (layer 3)!
 		
 		// Layer 3 effects
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "clouds.click");
+			animateExit($(this), "clouds.click", "goback3.click");
 		});
 		
 		// Animate entrance of layer 3
 		$(object.getElementsByClassName("layer3")).each(function(){
-			animateEnter($(this), "clouds.click");
+			animateEnter($(this), "clouds.click", "goback3.click");
+		});
+		
+		// Animate exit of layer 3 and reentry of layer 1
+		$(object.getElementsByClassName("layer3")).each(function(){
+			animateExit($(this), "goback3.click", "clouds.click");
+		});
+		
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback3.click", "clouds.click");
 		});
 		
 		// Change to temperature inversion (layer 4)!
@@ -109,6 +142,15 @@ obj.addEventListener("load", function() {
 			animateEnter($(this), "health.click");
 		});
 		
+		// Animate exit of layer 5 and reentry of layer 1
+		$(object.getElementsByClassName("layer5")).each(function(){
+			animateExit($(this), "goback5.click", "health.click");
+		});
+		
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback5.click", "health.click");
+		});
+		
 		// Change to monitoring (layer 6)!
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
@@ -118,6 +160,15 @@ obj.addEventListener("load", function() {
 		// Animate entrance of layer 6
 		$(object.getElementsByClassName("layer6")).each(function(){
 			animateEnter($(this), "satellite.click");
+		});
+		
+		// Animate exit of layer 6 and reentry of layer 1
+		$(object.getElementsByClassName("layer6")).each(function(){
+			animateExit($(this), "goback6.click", "satellite.click");
+		});
+		
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback6.click", "satellite.click");
 		});
 });
 
@@ -162,24 +213,36 @@ function animateEarth(obj){
 
 // Turns all white paths to blue on mouse hover!
 function hoverColor(object){
-	var types = "path, circle, rect";
+	var types = "path, circle, rect, polygon";
+	$(object).attr("cursor", "pointer").attr("pointer-events", "auto");
 	if ($(object)[0].attributes.id.value == "earth"){
 		$(object).hover(function(){
-			$(object).find(types).each(function(){;
-				if (colorToHex($(this).css("fill")) == "#ffffff")
+			$(object).find(types).each(function(){
+				if ($(this)[0].attributes.id.value == "earth_outline")
 					$(this).css("fill", "#2bc0d2");
 			});
 		}, 
 		function() {
 			$(object).find(types).each(function(){
-				if (colorToHex($(this).css("fill")) == "#2bc0d2")
+				if ($(this)[0].attributes.id.value == "earth_outline")
 					$(this).css("fill", "#ffffff");
 			});
 		});
 	}
+	// This should be all types
+	else if ($(object).prop('tagName') == 'polygon'){
+		$(object).hover(function(){
+			var origFill = colorToHex($(this).css("fill"));
+			$(this)[0].attributes.originalFill = origFill;
+			$(this).css("fill", colMult(origFill, "#2bc0d2"));
+		},
+		function() {
+			$(this).css("fill", colorToHex($(this)[0].attributes.originalFill));
+		});
+	}
 	else {
 		$(object).hover(function(){
-			$(object).find(types).each(function(){;
+			$(object).find(types).each(function(){
 				var origFill = colorToHex($(this).css("fill"));
 				$(this)[0].attributes.originalFill = origFill;
 				$(this).css("fill", colMult(origFill, "#2bc0d2"));
@@ -193,7 +256,44 @@ function hoverColor(object){
 	}
 }
 
-function animateEnter(obj, when){
+function animateReenter(obj, when, end){
+	var anim;
+	var effect = obj[0].attributes.exitEffect.value;
+	//~ console.log(obj[0]);
+	if (effect == "slide"){
+		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		if (obj[0].attributes.exit.value == "down"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("from", "0,1200");
+			else
+				anim.setAttribute("from", bbox.height +",0");
+		}
+		else if (obj[0].attributes.exit.value == "right"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("from", "1600,0");
+			else
+				anim.setAttribute("from", bbox.width +",0");
+		}
+		else if (obj[0].attributes.exit.value == "left"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("from", "-1600,0");
+			else
+				anim.setAttribute("from", "-" + bbox.width + ",0");
+		}
+		anim.setAttribute("to", "0,0");
+		anim.setAttribute("begin", when + "+1s");
+		anim.setAttribute("end", end);
+		anim.setAttribute("dur", "1s");
+		anim.setAttribute("fill", "freeze");
+		//~ anim.setAttribute("additive", "sum");
+		anim.setAttribute("repeatCount", "1");
+		
+		obj.append(anim);
+	}
+	
+}
+
+function animateEnter(obj, when, end){
 	var anim;
 	var effect = obj[0].attributes.enterEffect.value;
 	var delay = "0";
@@ -230,16 +330,14 @@ function animateEnter(obj, when){
 		}
 			
 		anim.setAttribute("begin", when + "+" + delay + "s");
+		anim.setAttribute("end", end);
 		anim.setAttribute("dur", "1s");
 		anim.setAttribute("fill", "freeze");
+		//~ anim.setAttribute("additive", "sum");
+		anim.setAttribute("repeatCount", "1");
 		obj.append(anim);
 	}
 	else if (effect == "fade"){
-		var delay = 0;
-		if (obj[0].attributes.delay)
-			delay = obj[0].attributes.delay.value;
-			
-		console.log($(obj)[0]);
 			
 		obj.find("text, path, polyline").each(function(){				
 			// Save original opacity
@@ -265,19 +363,32 @@ function animateEnter(obj, when){
 			move.setAttribute("to", "1600,0");
 			move.setAttribute("begin", when);
 			move.setAttribute("dur", "0.1s");
-			move.setAttribute("repeatCount", "1");
+			//~ move.setAttribute("repeatCount", "1");
 			move.setAttribute("fill", "freeze");
 			$(this).append(move);
 		});
 	}
 	else if (effect == "smoke"){
+		// Move into frame
+		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		move.setAttribute("from", "0,0");
+		move.setAttribute("to", "1600,0");
+		move.setAttribute("begin", when);
+		move.setAttribute("dur", "0.001s");
+		//~ move.setAttribute("additive", "sum");
+		move.setAttribute("repeatCount", "1");
+		move.setAttribute("fill", "freeze");
+		$(obj).append(move);
+		
 		obj.find("circle").each(function(){
-			// Move into frame
-			$(this)[0].setAttribute("transform", "translate(" + 0 + ",15)");
 			// Save original radius
 			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
 			// Make them invisibly small
-			$(this)[0].setAttribute("r", "0.001");
+			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+			set.setAttribute("attributeName", "r");
+			set.setAttribute("begin", when);
+			set.setAttribute("to", "0");
+			$(this).append(set);
 			
 			// Animated grow			
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
@@ -296,14 +407,30 @@ function animateEnter(obj, when){
 		var delay = 0;
 		if (obj[0].attributes.delay)
 			delay = parseInt(obj[0].attributes.delay.value);
+		
+		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		move.setAttribute("from", "0,0");
+		move.setAttribute("to", "1600,0");
+		move.setAttribute("begin", when);
+		move.setAttribute("dur", "0.001s");
+		//~ move.setAttribute("additive", "sum");
+		move.setAttribute("repeatCount", "1");
+		move.setAttribute("fill", "freeze");
+		$(obj).append(move);
+			
 		obj.find("circle").each(function(){
 			var rand = 1 + random(1);
 			// Move into frame
 			//~ $(this)[0].setAttribute("transform", "translate(" + 0 + ",15)");
+			
 			// Save original radius
 			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
 			// Make them invisibly small
-			$(this)[0].setAttribute("r", "0.01");
+			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+			set.setAttribute("attributeName", "r");
+			set.setAttribute("begin", when);
+			set.setAttribute("to", "0");
+			$(this).append(set);
 			
 			// Animated grow			
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
@@ -315,15 +442,6 @@ function animateEnter(obj, when){
 			subAnim.setAttribute("begin", when + "+" + (delay + rand) + "s");
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
-			
-			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-			move.setAttribute("from", "0,0");
-			move.setAttribute("to", "1600,0");
-			move.setAttribute("begin", when);
-			move.setAttribute("dur", "0.001s");
-			move.setAttribute("repeatCount", "1");
-			move.setAttribute("fill", "freeze");
-			$(this).append(move);
 		});
 		
 		obj.find("text, path").each(function(){
@@ -333,10 +451,13 @@ function animateEnter(obj, when){
 			// Extra delay for arrows
 			var delay2 = ($(this)[0].nodeName == "path") ? 1 : 0;
 						
-			// Move into frame
-			//~ $(this)[0].setAttribute("transform", "translate(" + 1600 + ",0)");
 			// Make invisible
-			$(this)[0].setAttribute("opacity", "0");
+			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+			set.setAttribute("attributeName", "opacity");
+			set.setAttribute("begin", when);
+			set.setAttribute("to", "0");
+			$(this).append(set);
+			
 			
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "opacity");
@@ -348,20 +469,10 @@ function animateEnter(obj, when){
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
 			
-			// Ugly hack to make text move into frame on click
-			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-			move.setAttribute("from", "0,0");
-			move.setAttribute("to", "1600,0");
-			move.setAttribute("begin", when + "+" + (rand + delay) + "s");
-			move.setAttribute("dur", "0.1s");
-			move.setAttribute("repeatCount", "1");
-			move.setAttribute("fill", "freeze");
-			$(this).append(move);
 		});
 	}
 	else if (effect == "fan"){
 		var delay = 0;
-		//~ console.log($(obj)[0].attributes.fan);
 		var to = ($(obj)[0].attributes.fan.value == "left") ? 1600 : -1600;
 		obj.children().each(function(){
 			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
@@ -369,7 +480,7 @@ function animateEnter(obj, when){
 			move.setAttribute("to", to + ",0");
 			move.setAttribute("begin", when + "+" + delay + "s");
 			move.setAttribute("dur", "1s");
-			move.setAttribute("repeatCount", "1");
+			//~ move.setAttribute("repeatCount", "1");
 			move.setAttribute("fill", "freeze");
 			$(this).append(move);
 			
@@ -379,27 +490,49 @@ function animateEnter(obj, when){
 	
 }
 
-function animateExit(obj, when){
+function animateExit(obj, when, end){
 	// Special exceptions go here
-	//~ console.log(when, obj[0].attributes.id.value);
 	if (when == "earth.click" && obj[0].attributes.id.value == "earth"){
 		return;
 	}
+	
+	var exitDelay = "0";
+	if (obj[0].attributes.exitDelay)
+		exitDelay = obj[0].attributes.exitDelay.value;
 	var anim;
+	
+	console.log(obj[0]);
 	var effect = obj[0].attributes.exitEffect.value;
 	if (effect == "slide"){
+		var bbox = obj[0].getBBox();
+		
 		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		anim.setAttribute("from", "0,0");
-		if (obj[0].attributes.exit.value == "down")
-			anim.setAttribute("to", "0,1600");
-		else if (obj[0].attributes.exit.value == "right")
-			anim.setAttribute("to", "1600,0");
-		else if (obj[0].attributes.exit.value == "left")
-			anim.setAttribute("to", "-1600,0");
-		anim.setAttribute("begin", when);
+		
+		if (obj[0].attributes.exit.value == "down"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("to", "0,1200");
+			else
+				anim.setAttribute("to", "0," + bbox.height);
+		}
+		else if (obj[0].attributes.exit.value == "right"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("to", "1600,0");
+			else
+				anim.setAttribute("to", bbox.width +",0");
+		}
+		else if (obj[0].attributes.exit.value == "left"){
+			if (!obj[0].attributes.edge)
+				anim.setAttribute("to", "-1600,0");
+			else
+				anim.setAttribute("to", "-" + bbox.width + ",0");
+		}
+		anim.setAttribute("begin", when + "+" + exitDelay + "s");
+		anim.setAttribute("end", end);
 		anim.setAttribute("dur", "1s");
 		anim.setAttribute("fill", "freeze");
-		//~ anim.setAttribute("additive", "sum");
+		anim.setAttribute("additive", "sum");
+		anim.setAttribute("repeatCount", "1");
 	}
 	else if (effect == "fade"){
 		//~ obj[0].fadeOut();
