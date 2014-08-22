@@ -203,7 +203,7 @@ obj.addEventListener("load", function() {
 function animateSat(sat){
 	// Layer 6
 	var move6 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-	move6.setAttribute("path", "m 0,0 -1095,-360");
+	move6.setAttribute("path", "m 0,0 -1135,-390");
 	move6.setAttribute("begin", "satellite.click");
 	move6.setAttribute("end", "goback6.click");
 	move6.setAttribute("dur", "1s");
@@ -225,11 +225,11 @@ function animateSat(sat){
 	rot6.setAttribute("dur", "1s");
 	rot6.setAttribute("repeatCount", "1");
 	rot6.setAttribute("fill", "freeze");
-	rot6.setAttribute("additive", "sum");
+	//~ rot6.setAttribute("additive", "sum");
 	$(sat).append(rot6);
 	
 	var comeBack6 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-	comeBack6.setAttribute("path", "m 0,0 1095,360");
+	comeBack6.setAttribute("path", "m 0,0 1135,390");
 	comeBack6.setAttribute("begin", "goback6.click");
 	comeBack6.setAttribute("end", "satellite.click");
 	comeBack6.setAttribute("dur", "1s");
@@ -248,11 +248,12 @@ function animateSat(sat){
 	rotBack6.setAttribute("dur", "1s");
 	rotBack6.setAttribute("repeatCount", "1");
 	rotBack6.setAttribute("fill", "freeze");
+	rotBack6.setAttribute("additive", "replace");
 	$(sat).append(rotBack6);
 	
 	// Layer 7
 	var move7 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-	move7.setAttribute("path", "m 0,0 -1065,-370");
+	move7.setAttribute("path", "m 0,0 -1120,-410");
 	move7.setAttribute("begin", "box_recomm.click");
 	move7.setAttribute("end", "goback7.click");
 	move7.setAttribute("dur", "1s");
@@ -260,28 +261,21 @@ function animateSat(sat){
 	move7.setAttribute("fill", "freeze");
 	$(sat).append(move7);
 	
-	// Obtained these manually
-	//~ cx = 1359.8041381835938;
-	//~ cy = 669.3348999023438;
-	
-	console.log(cx, cy);
 	var rot7 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
 	rot7.setAttribute("attributeName", "transform");
 	rot7.setAttribute("type", "rotate");
 	rot7.setAttribute("from", "0 " + cx + " " + cy);
 	rot7.setAttribute("to", "-70 " + cx + " " + cy);
-	//~ rot7.setAttribute("from", "0");
-	//~ rot7.setAttribute("to", "-70");
 	rot7.setAttribute("begin", "box_recomm.click");
 	rot7.setAttribute("end", "goback7.click");
 	rot7.setAttribute("dur", "1s");
 	rot7.setAttribute("repeatCount", "1");
 	rot7.setAttribute("fill", "freeze");
-	rot7.setAttribute("additive", "sum");
+	//~ rot7.setAttribute("additive", "sum");
 	$(sat).append(rot7);
 	
 	var comeBack7 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-	comeBack7.setAttribute("path", "m 0,0 1065,370");
+	comeBack7.setAttribute("path", "m 0,0 1120,410");
 	comeBack7.setAttribute("begin", "goback7.click");
 	comeBack7.setAttribute("end", "box_recomm.click");
 	comeBack7.setAttribute("dur", "1s");
@@ -303,6 +297,7 @@ function animateSat(sat){
 	rotBack7.setAttribute("dur", "1s");
 	rotBack7.setAttribute("repeatCount", "1");
 	rotBack7.setAttribute("fill", "freeze");
+	rotBack7.setAttribute("additive", "replace");
 	$(sat).append(rotBack7);
 }
 
@@ -338,6 +333,7 @@ function animateEarth(obj){
 	move.setAttribute("dur", "1s");
 	move.setAttribute("repeatCount", "1");
 	move.setAttribute("fill", "freeze");
+	move.setAttribute("additive", "sum");
 
 	//~ rot.setAttribute("additive", "sum");
 	$(obj).append(move);
@@ -381,6 +377,7 @@ function animateEarth(obj){
 	move2.setAttribute("dur", "1s");
 	move2.setAttribute("repeatCount", "1");
 	move2.setAttribute("fill", "freeze");
+	//~ move2.setAttribute("additive", "sum");
 	$(obj).append(move2);
 
 	var scale2 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
