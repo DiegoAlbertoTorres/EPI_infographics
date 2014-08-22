@@ -22,7 +22,7 @@
 var obj = document.getElementById("svg-object");
 obj.addEventListener("load", function() {
         var object = obj.contentDocument;
-        
+
         var satellite = object.getElementById("satellite");
         var warped = object.getElementById("warped_city");
         var city = object.getElementById("city");
@@ -34,6 +34,9 @@ obj.addEventListener("load", function() {
         var health = object.getElementById("health");
         var whiteCity = object.getElementById("white_city");
         
+        // Text boxes
+        var box_recomm = object.getElementById("box_recomm");
+
         var goback2 = object.getElementById("goback2");
         var goback3 = object.getElementById("goback3");
         var goback4 = object.getElementById("goback4");
@@ -42,24 +45,15 @@ obj.addEventListener("load", function() {
         var goback7 = object.getElementById("goback7");
         var goback8 = object.getElementById("goback8");
 
-        var parTitle = object.getElementById("title_particulate");
-        var parSubtitle = object.getElementById("subtitle_particulate");
-        
-        var dirTitle = object.getElementById("title_direct");
-        var dirSubtitle = object.getElementById("subtitle_direct");
-        
-        var indirTitle = object.getElementById("title_indirect");
-        var indirSubtitle = object.getElementById("subtitle_indirect");
-       
 		// Layer 1 (particulate matter) effects
-		
+
 		// Hover effects
 		hoverColor(warped);
 		hoverColor(clouds);
 		hoverColor(satellite);
 		hoverColor(health);
 		hoverColor(earth);
-		
+
 		hoverColor(goback2);
 		hoverColor(goback3);
 		hoverColor(goback4);
@@ -67,152 +61,346 @@ obj.addEventListener("load", function() {
 		hoverColor(goback6);
 		hoverColor(goback7);
 		hoverColor(goback8);
-				
+		
+		hoverColor(box_recomm);
+
 		// Satellite
         //~ animateOrbit(satellite, satOrbit);
-		
+
+		animateClipPaths();
+
         // Change to direct emissions (layer 2)!
-		
+
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateExit($(this), "warped_city.click", "goback2.click");
 		});
-		
+
 		// Animate entrance of layer2
 		$(object.getElementsByClassName("layer2")).each(function(){
 			animateEnter($(this), "warped_city.click", "goback2.click");
 		});
-		
+
 		// Layer 2 effects
-		
+
 		// Animate exit of layer 2 and reentry of layer 1
 		$(object.getElementsByClassName("layer2")).each(function(){
 			animateExit($(this), "goback2.click", "warped_city.click");
 		});
-		
+
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateReenter($(this), "goback2.click", "warped_city.click");
 		});
-		
+
 		// Change to indirect emissions (layer 3)!
-		
+
 		// Layer 3 effects
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateExit($(this), "clouds.click", "goback3.click");
 		});
-		
+
 		// Animate entrance of layer 3
 		$(object.getElementsByClassName("layer3")).each(function(){
 			animateEnter($(this), "clouds.click", "goback3.click");
 		});
-		
+
 		// Animate exit of layer 3 and reentry of layer 1
 		$(object.getElementsByClassName("layer3")).each(function(){
 			animateExit($(this), "goback3.click", "clouds.click");
 		});
-		
+
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateReenter($(this), "goback3.click", "clouds.click");
 		});
-		
+
 		// Change to temperature inversion (layer 4)!
-		
+
 		// Layer 4 effects
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateExit($(this), "earth.click");
 		});
-		
+
 		// Animate entrance of layer 4
 		$(object.getElementsByClassName("layer4")).each(function(){
 			animateEnter($(this), "earth.click");
 		});
-		
+
 		animateEarth(earth);
-		
+
+		// Animate exit of layer 4 and reentry of layer 1
+		$(object.getElementsByClassName("layer4")).each(function(){
+			animateExit($(this), "goback4.click", "earth.click");
+		});
+
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback4.click", "earth.click");
+		});
+
 		// Change to health impacts 1 (layer 5)!
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateExit($(this), "health.click");
 		});
-		
+
 		// Animate entrance of layer 5
 		$(object.getElementsByClassName("layer5")).each(function(){
-			animateEnter($(this), "health.click");
+			animateEnter($(this), "health.click", "goback5.click");
 		});
-		
+
 		// Animate exit of layer 5 and reentry of layer 1
 		$(object.getElementsByClassName("layer5")).each(function(){
 			animateExit($(this), "goback5.click", "health.click");
 		});
-		
+
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateReenter($(this), "goback5.click", "health.click");
 		});
-		
+
 		// Change to monitoring (layer 6)!
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "satellite.click");
+			animateExit($(this), "satellite.click", "goback6.click");
 		});
-		
+
 		// Animate entrance of layer 6
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateEnter($(this), "satellite.click");
+			animateEnter($(this), "satellite.click", "goback6.click");
 		});
 		
+		animateSat(satellite);
+
 		// Animate exit of layer 6 and reentry of layer 1
 		$(object.getElementsByClassName("layer6")).each(function(){
 			animateExit($(this), "goback6.click", "satellite.click");
 		});
-		
+
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateReenter($(this), "goback6.click", "satellite.click");
 		});
+		
+		// Change to recommendations (layer 7)!
+		// Animate exit of layer 1
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "box_recomm.click", "goback7.click");
+		});
+		// Animate entrance of layer 7
+		$(object.getElementsByClassName("layer7")).each(function(){
+			animateEnter($(this), "box_recomm.click", "goback7.click");
+		});
+
+		// Animate exit of layer 7 and reentry of layer 1
+		$(object.getElementsByClassName("layer7")).each(function(){
+			animateExit($(this), "goback7.click", "box_recomm.click");
+		});
+
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback7.click", "box_recomm.click");
+		});
 });
+
+function animateSat(sat){
+	// Layer 6
+	var move6 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	move6.setAttribute("path", "m 0,0 -1095,-360");
+	move6.setAttribute("begin", "satellite.click");
+	move6.setAttribute("end", "goback6.click");
+	move6.setAttribute("dur", "1s");
+	move6.setAttribute("repeatCount", "1");
+	move6.setAttribute("fill", "freeze");
+	$(sat).append(move6);
+	
+	var bbox = $(sat)[0].getBBox();
+	var cx = bbox.x + bbox.width/2;
+	var cy = bbox.y + bbox.height/2;
+	
+	var rot6 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	rot6.setAttribute("attributeName", "transform");
+	rot6.setAttribute("type", "rotate");
+	rot6.setAttribute("from", "0 " + cx + " " + cy);
+	rot6.setAttribute("to", "-90 " + cx + " " + cy);
+	rot6.setAttribute("begin", "satellite.click");
+	rot6.setAttribute("end", "goback6.click");
+	rot6.setAttribute("dur", "1s");
+	rot6.setAttribute("repeatCount", "1");
+	rot6.setAttribute("fill", "freeze");
+	rot6.setAttribute("additive", "sum");
+	$(sat).append(rot6);
+	
+	var comeBack6 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	comeBack6.setAttribute("path", "m 0,0 1095,360");
+	comeBack6.setAttribute("begin", "goback6.click");
+	comeBack6.setAttribute("end", "satellite.click");
+	comeBack6.setAttribute("dur", "1s");
+	comeBack6.setAttribute("repeatCount", "1");
+	comeBack6.setAttribute("fill", "freeze");
+	comeBack6.setAttribute("additive", "sum");
+	$(sat).append(comeBack6);
+	
+	var rotBack6 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	rotBack6.setAttribute("attributeName", "transform");
+	rotBack6.setAttribute("type", "rotate");
+	rotBack6.setAttribute("from", "-90 " + cx + " " + cy);
+	rotBack6.setAttribute("to", "0 " + cx + " " + cy);
+	rotBack6.setAttribute("begin", "goback6.click");
+	rotBack6.setAttribute("end", "satellite.click");
+	rotBack6.setAttribute("dur", "1s");
+	rotBack6.setAttribute("repeatCount", "1");
+	rotBack6.setAttribute("fill", "freeze");
+	$(sat).append(rotBack6);
+	
+	// Layer 7
+	var move7 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	move7.setAttribute("path", "m 0,0 -1065,-370");
+	move7.setAttribute("begin", "box_recomm.click");
+	move7.setAttribute("end", "goback7.click");
+	move7.setAttribute("dur", "1s");
+	move7.setAttribute("repeatCount", "1");
+	move7.setAttribute("fill", "freeze");
+	$(sat).append(move7);
+	
+	// Obtained these manually
+	//~ cx = 1359.8041381835938;
+	//~ cy = 669.3348999023438;
+	
+	console.log(cx, cy);
+	var rot7 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	rot7.setAttribute("attributeName", "transform");
+	rot7.setAttribute("type", "rotate");
+	rot7.setAttribute("from", "0 " + cx + " " + cy);
+	rot7.setAttribute("to", "-70 " + cx + " " + cy);
+	//~ rot7.setAttribute("from", "0");
+	//~ rot7.setAttribute("to", "-70");
+	rot7.setAttribute("begin", "box_recomm.click");
+	rot7.setAttribute("end", "goback7.click");
+	rot7.setAttribute("dur", "1s");
+	rot7.setAttribute("repeatCount", "1");
+	rot7.setAttribute("fill", "freeze");
+	rot7.setAttribute("additive", "sum");
+	$(sat).append(rot7);
+	
+	var comeBack7 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	comeBack7.setAttribute("path", "m 0,0 1065,370");
+	comeBack7.setAttribute("begin", "goback7.click");
+	comeBack7.setAttribute("end", "box_recomm.click");
+	comeBack7.setAttribute("dur", "1s");
+	comeBack7.setAttribute("repeatCount", "1");
+	comeBack7.setAttribute("fill", "freeze");
+	comeBack7.setAttribute("additive", "sum");
+	$(sat).append(comeBack7);
+	
+	var a = 0;
+	var b = 0;
+	
+	var rotBack7 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	rotBack7.setAttribute("attributeName", "transform");
+	rotBack7.setAttribute("type", "rotate");
+	rotBack7.setAttribute("from", "-70 " + (cx + a) + " " + (cy + b));
+	rotBack7.setAttribute("to", "0 " + (cx + a) + " " + (cy + b));
+	rotBack7.setAttribute("begin", "goback7.click");
+	rotBack7.setAttribute("end", "box_recomm.click");
+	rotBack7.setAttribute("dur", "1s");
+	rotBack7.setAttribute("repeatCount", "1");
+	rotBack7.setAttribute("fill", "freeze");
+	$(sat).append(rotBack7);
+}
 
 function animateEarth(obj){
 	var bbox = $(obj)[0].getBBox();
 	var cx = bbox.x + bbox.width/2;
 	var cy = bbox.y + bbox.height/2;
-	
+
 	var rot = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
 	rot.setAttribute("attributeName", "transform");
 	rot.setAttribute("type", "rotate");
 	rot.setAttribute("from", "0 " + cx + " " + cy);
 	rot.setAttribute("to", "230 " + cx + " " + cy);
 	rot.setAttribute("begin", "earth.click");
+	rot.setAttribute("end", "goback4.click");
 	rot.setAttribute("dur", "1s");
 	rot.setAttribute("repeatCount", "1");
 	rot.setAttribute("fill", "freeze");
-	rot.setAttribute("additive", "sum");
+	//~ rot.setAttribute("additive", "sum");
 	$(obj).append(rot);
-	
+
+	var movx = 143;
+	var movy = 403;
+
+	//~ var movx = 0;
+	//~ var movy = 0;
+
 	var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-	move.setAttribute("from", "0,0");
-	move.setAttribute("to", "220,40");
+	move.setAttribute("from", movx +"," + movy);
+	move.setAttribute("to", (movx+220) +"," + (movy+40));
 	move.setAttribute("begin", "earth.click");
+	move.setAttribute("end", "goback4.click");
 	move.setAttribute("dur", "1s");
 	move.setAttribute("repeatCount", "1");
 	move.setAttribute("fill", "freeze");
+
+	//~ rot.setAttribute("additive", "sum");
 	$(obj).append(move);
-	
+
 	var scale = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
 	scale.setAttribute("attributeName", "transform");
 	scale.setAttribute("type", "scale");
 	scale.setAttribute("from", "1 1");
 	scale.setAttribute("to", "0.97 0.97");
 	scale.setAttribute("begin", "earth.click");
+	scale.setAttribute("end", "goback4.click");
 	scale.setAttribute("dur", "1s");
 	scale.setAttribute("repeatCount", "1");
 	scale.setAttribute("fill", "freeze");
 	scale.setAttribute("additive", "sum");
 	$(obj).append(scale);
+
+	// Move back
+	bbox = $(obj)[0].getBBox();
+	cx = bbox.x + bbox.width/2;
+	cy = bbox.y + bbox.height/2;
+
+	var rot2 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	rot2.setAttribute("attributeName", "transform");
+	rot2.setAttribute("type", "rotate");
+	rot2.setAttribute("from", "230 " + cx + " " + cy);
+	rot2.setAttribute("to", "0 " + cx + " " + cy);
+	rot2.setAttribute("begin", "goback4.click");
+	rot2.setAttribute("end", "earth.click");
+	rot2.setAttribute("dur", "1s");
+	rot2.setAttribute("repeatCount", "1");
+	rot2.setAttribute("fill", "freeze");
+	//~ rot2.setAttribute("additive", "sum");
+	$(obj).append(rot2);
+
+	var move2 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+	move2.setAttribute("from", (movx+220) +"," + (movy+40));
+	move2.setAttribute("to", movx +"," + movy);
+	move2.setAttribute("begin", "goback4.click");
+	move2.setAttribute("end", "earth.click");
+	move2.setAttribute("dur", "1s");
+	move2.setAttribute("repeatCount", "1");
+	move2.setAttribute("fill", "freeze");
+	$(obj).append(move2);
+
+	var scale2 = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
+	scale2.setAttribute("attributeName", "transform");
+	scale2.setAttribute("type", "scale");
+	scale2.setAttribute("from", "0.97 0.97");
+	scale2.setAttribute("to", "1 1");
+	scale2.setAttribute("begin", "goback4.click");
+	scale2.setAttribute("end", "earth.click");
+	scale2.setAttribute("dur", "1s");
+	scale2.setAttribute("repeatCount", "1");
+	scale2.setAttribute("fill", "freeze");
+	scale2.setAttribute("additive", "sum");
+	$(obj).append(scale2);
 }
 
 // Turns all white paths to blue on mouse hover!
 function hoverColor(object){
+    if (object == null)
+        return;
 	var types = "path, circle, rect, polygon";
 	$(object).attr("cursor", "pointer").attr("pointer-events", "auto");
 	if ($(object)[0].attributes.id.value == "earth"){
@@ -221,7 +409,7 @@ function hoverColor(object){
 				if ($(this)[0].attributes.id.value == "earth_outline")
 					$(this).css("fill", "#2bc0d2");
 			});
-		}, 
+		},
 		function() {
 			$(object).find(types).each(function(){
 				if ($(this)[0].attributes.id.value == "earth_outline")
@@ -247,7 +435,7 @@ function hoverColor(object){
 				$(this)[0].attributes.originalFill = origFill;
 				$(this).css("fill", colMult(origFill, "#2bc0d2"));
 			});
-		}, 
+		},
 		function() {
 			$(object).find(types).each(function(){
 				$(this).css("fill", colorToHex($(this)[0].attributes.originalFill));
@@ -257,9 +445,14 @@ function hoverColor(object){
 }
 
 function animateReenter(obj, when, end){
+	if ((when == "goback4.click" && obj[0].attributes.id.value == "earth") || 
+		(when == "goback6.click" && obj[0].attributes.id.value == "satellite") ||
+		(when == "goback7.click" && obj[0].attributes.id.value == "satellite")) {
+		return;
+	}
+
 	var anim;
 	var effect = obj[0].attributes.exitEffect.value;
-	//~ console.log(obj[0]);
 	if (effect == "slide"){
 		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		if (obj[0].attributes.exit.value == "down"){
@@ -287,24 +480,28 @@ function animateReenter(obj, when, end){
 		anim.setAttribute("fill", "freeze");
 		//~ anim.setAttribute("additive", "sum");
 		anim.setAttribute("repeatCount", "1");
-		
+
 		obj.append(anim);
 	}
-	
+
 }
 
 function animateEnter(obj, when, end){
 	var anim;
-	var effect = obj[0].attributes.enterEffect.value;
 	var delay = "0";
 	
+	if (!obj[0].attributes.enterEffect)
+		return;
+		
+	var effect = obj[0].attributes.enterEffect.value;
+
 	if (obj[0].attributes.delay)
 		delay = obj[0].attributes.delay.value;
-		
+
 	if (effect == "slide"){
 		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		anim.setAttribute("from", "0,0");
-		
+
 		var bbox = obj[0].getBBox();
 		
 		if (obj[0].attributes.enter.value == "left"){
@@ -321,14 +518,14 @@ function animateEnter(obj, when, end){
 		}
 		else if (obj[0].attributes.enter.value == "up")
 			anim.setAttribute("to", "0,1200");
-			
+
 		else if (obj[0].attributes.enter.value == "down"){
 			if (!obj[0].attributes.edge)
 				anim.setAttribute("to", "0,-1200");
 			else
 				anim.setAttribute("to", "0,-" + bbox.height);
 		}
-			
+
 		anim.setAttribute("begin", when + "+" + delay + "s");
 		anim.setAttribute("end", end);
 		anim.setAttribute("dur", "1s");
@@ -338,14 +535,28 @@ function animateEnter(obj, when, end){
 		obj.append(anim);
 	}
 	else if (effect == "fade"){
-			
-		obj.find("text, path, polyline").each(function(){				
+		// Ugly hack to make text move into frame on click
+		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		move.setAttribute("from", "0,0");
+		move.setAttribute("to", "1600,0");
+		move.setAttribute("begin", when);
+		move.setAttribute("end", end);
+		move.setAttribute("dur", "0.001s");
+		move.setAttribute("repeatCount", "1");
+		move.setAttribute("fill", "freeze");
+		obj.append(move);
+
+		obj.find("text, path, polyline").addBack("text, path, polyline").each(function(){
 			// Save original opacity
 			var origOpacity = $(this).css("opacity");
-			
+
 			// Make invisible
-			$(this).css("opacity", "0");
-			
+			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+			set.setAttribute("attributeName", "opacity");
+			set.setAttribute("begin", when);
+			set.setAttribute("to", "0");
+			$(this).append(set);
+
 			// Fade
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "opacity");
@@ -354,18 +565,9 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("to", origOpacity);
 			subAnim.setAttribute("dur", "1s");
 			subAnim.setAttribute("begin", when + "+" + delay + "s");
+			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
-			
-			// Ugly hack to make text move into frame on click
-			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-			move.setAttribute("from", "0,0");
-			move.setAttribute("to", "1600,0");
-			move.setAttribute("begin", when);
-			move.setAttribute("dur", "0.1s");
-			//~ move.setAttribute("repeatCount", "1");
-			move.setAttribute("fill", "freeze");
-			$(this).append(move);
 		});
 	}
 	else if (effect == "smoke"){
@@ -374,12 +576,13 @@ function animateEnter(obj, when, end){
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "1600,0");
 		move.setAttribute("begin", when);
+		move.setAttribute("end", end);
 		move.setAttribute("dur", "0.001s");
 		//~ move.setAttribute("additive", "sum");
 		move.setAttribute("repeatCount", "1");
 		move.setAttribute("fill", "freeze");
 		$(obj).append(move);
-		
+
 		obj.find("circle").each(function(){
 			// Save original radius
 			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
@@ -389,8 +592,8 @@ function animateEnter(obj, when, end){
 			set.setAttribute("begin", when);
 			set.setAttribute("to", "0");
 			$(this).append(set);
-			
-			// Animated grow			
+
+			// Animated grow
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "r");
 			subAnim.setAttribute("attributeType", "XML");
@@ -398,31 +601,33 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("to", $(this)[0].attributes.prevR.value);
 			subAnim.setAttribute("dur", "0.7s");
 			subAnim.setAttribute("begin", when + "+" + (1 + random(1)) + "s");
+			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
 		});
 	}
-	
+
 	else if (effect == "bubbles"){
 		var delay = 0;
 		if (obj[0].attributes.delay)
 			delay = parseInt(obj[0].attributes.delay.value);
-		
+
 		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "1600,0");
 		move.setAttribute("begin", when);
+		move.setAttribute("end", end);
 		move.setAttribute("dur", "0.001s");
 		//~ move.setAttribute("additive", "sum");
 		move.setAttribute("repeatCount", "1");
 		move.setAttribute("fill", "freeze");
 		$(obj).append(move);
-			
+
 		obj.find("circle").each(function(){
 			var rand = 1 + random(1);
 			// Move into frame
 			//~ $(this)[0].setAttribute("transform", "translate(" + 0 + ",15)");
-			
+
 			// Save original radius
 			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
 			// Make them invisibly small
@@ -431,8 +636,8 @@ function animateEnter(obj, when, end){
 			set.setAttribute("begin", when);
 			set.setAttribute("to", "0");
 			$(this).append(set);
-			
-			// Animated grow			
+
+			// Animated grow
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "r");
 			subAnim.setAttribute("attributeType", "XML");
@@ -440,25 +645,26 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("to", $(this)[0].attributes.prevR.value);
 			subAnim.setAttribute("dur", "0.7s");
 			subAnim.setAttribute("begin", when + "+" + (delay + rand) + "s");
+			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
 		});
-		
+
 		obj.find("text, path").each(function(){
 			var rand = 1 + random(1);
 			// Text and arrow (path) fade
-			
+
 			// Extra delay for arrows
 			var delay2 = ($(this)[0].nodeName == "path") ? 1 : 0;
-						
+
 			// Make invisible
 			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
 			set.setAttribute("attributeName", "opacity");
 			set.setAttribute("begin", when);
 			set.setAttribute("to", "0");
 			$(this).append(set);
-			
-			
+
+
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "opacity");
 			subAnim.setAttribute("attributeType", "XML");
@@ -466,9 +672,10 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("to", "1");
 			subAnim.setAttribute("dur", "0.7s");
 			subAnim.setAttribute("begin", when + "+" + (rand + delay + delay2) + "s");
+			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
-			
+
 		});
 	}
 	else if (effect == "fan"){
@@ -479,36 +686,386 @@ function animateEnter(obj, when, end){
 			move.setAttribute("from", "0,0");
 			move.setAttribute("to", to + ",0");
 			move.setAttribute("begin", when + "+" + delay + "s");
+			move.setAttribute("end", end);
 			move.setAttribute("dur", "1s");
 			//~ move.setAttribute("repeatCount", "1");
 			move.setAttribute("fill", "freeze");
 			$(this).append(move);
-			
+
 			delay += 0.1;
 		});
 	}
-	
+	else if (effect == "drawLine"){
+		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		anim.setAttribute("from", "0,0");
+
+		if (obj[0].attributes.enter.value == "left")
+			anim.setAttribute("to", "1600,0");
+		else if (obj[0].attributes.enter.value == "right")
+			anim.setAttribute("to", "-1600,0");
+		else if (obj[0].attributes.enter.value == "up")
+			anim.setAttribute("to", "0,1200");
+		else if (obj[0].attributes.enter.value == "down")
+			anim.setAttribute("to", "0,-1200");
+
+		anim.setAttribute("begin", when);
+		anim.setAttribute("end", end);
+		anim.setAttribute("dur", "0.01s");
+		anim.setAttribute("fill", "freeze");
+		//~ anim.setAttribute("additive", "sum");
+		anim.setAttribute("repeatCount", "1");
+		obj.append(anim);
+		
+		obj.find("path").each(function(){
+			var pathLength = $(this)[0].getTotalLength(),
+				miterLimit = 10;
+
+			$(this)[0].setAttribute("stroke-dashoffset", pathLength);
+			$(this)[0].setAttribute("stroke-dasharray", pathLength + " " + pathLength);
+			$(this)[0].setAttribute("stroke-miterlimit", miterLimit);
+			
+			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			initialHide.setAttribute("attributeName", "stroke-dashoffset");
+			initialHide.setAttribute("begin", when);
+			initialHide.setAttribute("to", pathLength);
+			$(this).append(initialHide);
+			
+			// Draw animation
+			var draw = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			draw.setAttribute("attributeName", "stroke-dashoffset");
+			draw.setAttribute("attributeType", "XML");
+			draw.setAttribute("from", pathLength);
+			draw.setAttribute("to", "0");
+			draw.setAttribute("dur", "2s");
+			draw.setAttribute("begin", when + " + " + delay + "s");
+			draw.setAttribute("end", end);
+			draw.setAttribute("fill", "freeze");
+			$(this).append(draw);
+		});
+		obj.find("circle").each(function(){
+			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			initialHide.setAttribute("attributeName", "opacity");
+			initialHide.setAttribute("begin", when);
+			initialHide.setAttribute("to", "0");
+			$(this).append(initialHide);
+			
+			var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			fadeIn.setAttribute("attributeName", "opacity");
+			fadeIn.setAttribute("attributeType", "XML");
+			fadeIn.setAttribute("from", "0");
+			fadeIn.setAttribute("to", "1");
+			fadeIn.setAttribute("dur", "1s");
+			fadeIn.setAttribute("begin", when + " + 1s");
+			fadeIn.setAttribute("fill", "freeze");
+			$(this).append(fadeIn);
+		});
+	}
+	else if (effect == "drawInfoBox"){
+		var layer = $(obj)[0].attributes.layer.value;
+		
+		var moveIn = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		moveIn.setAttribute("from", "0,0");
+		moveIn.setAttribute("to", "1600,0");
+		moveIn.setAttribute("begin", when);
+		moveIn.setAttribute("dur", "0.01s");
+		moveIn.setAttribute("repeatCount", "1");
+		moveIn.setAttribute("fill", "freeze");
+		obj.append(moveIn);
+		
+		//~ var moveOut = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		//~ moveOut.setAttribute("from", "1600,0");
+		//~ moveOut.setAttribute("to", "0,0");
+		//~ moveOut.setAttribute("begin", "goback6.click");
+		//~ moveOut.setAttribute("dur", "1s");
+		//~ moveOut.setAttribute("repeatCount", "1");
+		//~ moveOut.setAttribute("fill", "freeze");
+		//~ obj.append(moveOut);
+		
+		// Animate each box
+		obj.children("g").each(function(){
+		
+			var boxId = $(this)[0].attributes.boxId.value;
+
+			var upArrowId = "up." + layer + "." + boxId;
+			var downArrowId = "down." + layer + "." + boxId;
+							
+			// Box case
+			$(this).find("g").each(function(){
+				if ($(this)[0].attributes.line)
+					return;
+				
+				var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+				initialHide.setAttribute("attributeName", "opacity");
+				initialHide.setAttribute("begin", when);
+				initialHide.setAttribute("to", "0");
+				$(this).append(initialHide);
+				
+				var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+				fadeIn.setAttribute("attributeName", "opacity");
+				fadeIn.setAttribute("attributeType", "XML");
+				fadeIn.setAttribute("from", "0");
+				fadeIn.setAttribute("to", "1");
+				fadeIn.setAttribute("dur", "1s");
+				fadeIn.setAttribute("begin", when + " + 1s");
+				fadeIn.setAttribute("fill", "freeze");
+				$(this).append(fadeIn);
+			});
+			// Line case (group with line attribute)
+			$(this).find("g").each(function(){
+				if (!$(this)[0].attributes.line)
+					return;
+				
+				// Draw circle
+				$(this).children("circle").each(function(){
+				});
+				// Draw line
+				$(this).children("path").each(function(){
+		
+					var pathLength = $(this)[0].getTotalLength(),
+						miterLimit = 10;
+					$(this)[0].setAttribute("stroke-dashoffset", pathLength);
+					$(this)[0].setAttribute("stroke-dasharray", pathLength +" " + pathLength);
+					$(this)[0].setAttribute("stroke-miterlimit", miterLimit);
+					
+					// Draw animation
+					var draw = document.createElementNS("http://www.w3.org/2000/svg","animate");
+					draw.setAttribute("attributeName", "stroke-dashoffset");
+					draw.setAttribute("attributeType", "XML");
+					draw.setAttribute("from", pathLength);
+					draw.setAttribute("to", "0");
+					draw.setAttribute("dur", "2s");
+					draw.setAttribute("begin", when + " + 0s");
+					draw.setAttribute("fill", "freeze");
+					$(this).append(draw);
+				});
+			});
+
+			// Title case
+			$(this).children("text").each(function(){
+				var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+				initialHide.setAttribute("attributeName", "opacity");
+				initialHide.setAttribute("begin", when);
+				initialHide.setAttribute("to", "0");
+				$(this).append(initialHide);
+
+				// Fade in
+				var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+				fadeIn.setAttribute("attributeName", "opacity");
+				fadeIn.setAttribute("attributeType", "XML");
+				fadeIn.setAttribute("from", "0");
+				fadeIn.setAttribute("to", "1");
+				fadeIn.setAttribute("dur", "1s");
+				fadeIn.setAttribute("begin", when + " + 1s");
+				fadeIn.setAttribute("fill", "freeze");
+				$(this).append(fadeIn);
+			});
+
+
+			// Polygon case (arrows)
+			$(this).children("polygon").each(function(){
+					
+				var arrowType = $(this)[0].attributes.arrow.value;
+				
+				var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+				initialHide.setAttribute("attributeName", "opacity");
+				initialHide.setAttribute("begin", when);
+				initialHide.setAttribute("to", "0");
+				$(this).append(initialHide);
+
+				// Fade in
+				var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+				fadeIn.setAttribute("attributeName", "opacity");
+				fadeIn.setAttribute("attributeType", "XML");
+				fadeIn.setAttribute("from", "0");
+				fadeIn.setAttribute("to", "1");
+				fadeIn.setAttribute("dur", "1s");
+				fadeIn.setAttribute("begin", when + " + 1s");
+				fadeIn.setAttribute("fill", "freeze");
+				$(this).append(fadeIn);
+
+				if (arrowType == "up"){
+					var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+					set.setAttribute("attributeName", "visibility");
+					set.setAttribute("begin", "0s");
+					set.setAttribute("to", "hidden");
+					$(this).append(set);
+
+					set = document.createElementNS("http://www.w3.org/2000/svg","set");
+					set.setAttribute("attributeName", "visibility");
+					set.setAttribute("begin", "up/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
+					set.setAttribute("to", "hidden");
+					set.setAttribute("repeatCount", "indefinite");
+					$(this).append(set);
+
+					set = document.createElementNS("http://www.w3.org/2000/svg","set");
+					set.setAttribute("attributeName", "visibility");
+					set.setAttribute("begin", "down/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
+					set.setAttribute("to", "visible");
+					set.setAttribute("repeatCount", "indefinite");
+					$(this).append(set);
+				}
+				else if (arrowType == "down"){
+					set = document.createElementNS("http://www.w3.org/2000/svg","set");
+					set.setAttribute("attributeName", "visibility");
+					set.setAttribute("begin", "down/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
+					set.setAttribute("to", "hidden");
+					set.setAttribute("repeatCount", "indefinite");
+					$(this).append(set);
+
+					set = document.createElementNS("http://www.w3.org/2000/svg","set");
+					set.setAttribute("attributeName", "visibility");
+					set.setAttribute("begin", "up/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
+					set.setAttribute("to", "visible");
+					set.setAttribute("repeatCount", "indefinite");
+					$(this).append(set);
+				}
+				hoverColor($(this)[0]);
+			});
+		});
+	}
+	else if (effect == "drawInfoBox2"){
+		var layer = $(obj)[0].attributes.layer.value;
+		var boxId = $(obj)[0].attributes.boxId.value;
+		
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", "opacity");
+		initialHide.setAttribute("begin", when);
+		initialHide.setAttribute("to", "0");
+		obj.append(initialHide);
+
+		// Fade in
+		var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		fadeIn.setAttribute("attributeName", "opacity");
+		fadeIn.setAttribute("attributeType", "XML");
+		fadeIn.setAttribute("from", "0");
+		fadeIn.setAttribute("to", "1");
+		fadeIn.setAttribute("dur", "1s");
+		fadeIn.setAttribute("begin", when + " + 1s");
+		fadeIn.setAttribute("fill", "freeze");
+		obj.append(fadeIn);
+				
+		var moveIn = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		moveIn.setAttribute("from", "0,0");
+		moveIn.setAttribute("to", "1600,0");
+		moveIn.setAttribute("begin", when);
+		moveIn.setAttribute("dur", "0.01s");
+		moveIn.setAttribute("repeatCount", "1");
+		moveIn.setAttribute("fill", "freeze");
+		obj.append(moveIn);
+
+		var rightArrowId = "right." + layer + "." + boxId;
+		var leftArrowId = "left." + layer + "." + boxId;
+						
+		// Box case
+		$(obj).find("g").each(function(){
+			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			initialHide.setAttribute("attributeName", "opacity");
+			initialHide.setAttribute("begin", when);
+			initialHide.setAttribute("to", "0");
+			$(this).append(initialHide);
+			
+			var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			fadeIn.setAttribute("attributeName", "opacity");
+			fadeIn.setAttribute("attributeType", "XML");
+			fadeIn.setAttribute("from", "0");
+			fadeIn.setAttribute("to", "1");
+			fadeIn.setAttribute("dur", "1s");
+			fadeIn.setAttribute("begin", when + " + 1s");
+			fadeIn.setAttribute("fill", "freeze");
+			$(this).append(fadeIn);
+		});
+		// Polygon case (arrows)
+		$(obj).children("polygon").each(function(){
+			var arrowType = $(this)[0].attributes.arrow.value;
+			
+			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			initialHide.setAttribute("attributeName", "opacity");
+			initialHide.setAttribute("begin", when);
+			initialHide.setAttribute("to", "0");
+			$(this).append(initialHide);
+
+			// Fade in
+			var fadeIn = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			fadeIn.setAttribute("attributeName", "opacity");
+			fadeIn.setAttribute("attributeType", "XML");
+			fadeIn.setAttribute("from", "0");
+			fadeIn.setAttribute("to", "1");
+			fadeIn.setAttribute("dur", "1s");
+			fadeIn.setAttribute("begin", when + " + 1s");
+			fadeIn.setAttribute("fill", "freeze");
+			$(this).append(fadeIn);
+
+			if (arrowType == "right"){
+				var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+				set.setAttribute("attributeName", "visibility");
+				set.setAttribute("begin", "0s");
+				set.setAttribute("to", "hidden");
+				$(this).append(set);
+
+				set = document.createElementNS("http://www.w3.org/2000/svg","set");
+				set.setAttribute("attributeName", "visibility");
+				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "hidden");
+				set.setAttribute("repeatCount", "indefinite");
+				$(this).append(set);
+
+				set = document.createElementNS("http://www.w3.org/2000/svg","set");
+				set.setAttribute("attributeName", "visibility");
+				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "visible");
+				set.setAttribute("repeatCount", "indefinite");
+				$(this).append(set);
+			}
+			else if (arrowType == "left"){
+				set = document.createElementNS("http://www.w3.org/2000/svg","set");
+				set.setAttribute("attributeName", "visibility");
+				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "hidden");
+				set.setAttribute("repeatCount", "indefinite");
+				$(this).append(set);
+
+				set = document.createElementNS("http://www.w3.org/2000/svg","set");
+				set.setAttribute("attributeName", "visibility");
+				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "visible");
+				set.setAttribute("repeatCount", "indefinite");
+				$(this).append(set);
+			}
+			hoverColor($(this)[0]);
+		});
+	}
+
 }
 
 function animateExit(obj, when, end){
 	// Special exceptions go here
-	if (when == "earth.click" && obj[0].attributes.id.value == "earth"){
+	if ((when == "earth.click" && obj[0].attributes.id.value == "earth") ||
+		(when == "goback4.click" && obj[0].attributes.id.value == "earth") ||
+		(when == "satellite.click" && obj[0].attributes.id.value == "satellite") ||
+		(when == "box_recomm.click" && obj[0].attributes.id.value == "satellite") ||
+		(!obj[0].attributes.exitEffect)){
 		return;
 	}
-	
+	var effect = obj[0].attributes.exitEffect.value;
 	var exitDelay = "0";
 	if (obj[0].attributes.exitDelay)
 		exitDelay = obj[0].attributes.exitDelay.value;
-	var anim;
 	
-	console.log(obj[0]);
-	var effect = obj[0].attributes.exitEffect.value;
+	var anim;
 	if (effect == "slide"){
 		var bbox = obj[0].getBBox();
-		
+
 		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		anim.setAttribute("from", "0,0");
-		
+
 		if (obj[0].attributes.exit.value == "down"){
 			if (!obj[0].attributes.edge)
 				anim.setAttribute("to", "0,1200");
@@ -535,21 +1092,49 @@ function animateExit(obj, when, end){
 		anim.setAttribute("repeatCount", "1");
 	}
 	else if (effect == "fade"){
-		//~ obj[0].fadeOut();
+		var fadetime = "1s";
+		// Ugly hack to make text move into frame on click
+		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		move.setAttribute("from", "0,0");
+		move.setAttribute("to", "-1600,0");
+		move.setAttribute("begin", when + "+" + fadetime);
+		move.setAttribute("dur", "0.001s");
+		move.setAttribute("repeatCount", "1");
+		move.setAttribute("fill", "freeze");
+		obj.append(move);
+
+		obj.find("text, path, polyline").each(function(){
+			// Save original opacity
+			var origOpacity = $(this).css("opacity");
+
+			// Fade
+			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
+			subAnim.setAttribute("attributeName", "opacity");
+			subAnim.setAttribute("attributeType", "XML");
+			subAnim.setAttribute("from", origOpacity);
+			subAnim.setAttribute("to", 0);
+			subAnim.setAttribute("dur", "1s");
+			subAnim.setAttribute("begin", when + "+" + exitDelay + "s");
+			subAnim.setAttribute("fill", "freeze");
+			$(this).append(subAnim);
+
+			// Make visible again
+			$(this).css("opacity", origOpacity);
+		});
 	}
 	obj.append(anim);
 }
 
 function animateOrbit(sat, orbit){
 	var coming = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-	
-	
+
+
 	coming.setAttribute("path", "M 0,0 C 1271.2401,906.60818 1473.2777,736.47096 1354,634");
 	coming.setAttribute("begin", "0s");
 	coming.setAttribute("dur", "1s");
 	coming.setAttribute("repeatCount", "indefinite");
 	coming.setAttribute("fill", "freeze");
-	
+
 	//~ var going = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 	//~ coming.setAttribute("id", "goingSat");
 	//~ going.setAttribute("path", "m 39.068,53.187 c -4.4697,-26.65562 -13.1558,-33.60357 -38.0678,-52.18734");
@@ -557,16 +1142,75 @@ function animateOrbit(sat, orbit){
 	//~ going.setAttribute("dur", "1s");
 	//~ going.setAttribute("repeatCount", "indefinite");
 	//~ coming.setAttribute("fill", "freeze");
-	
+
 	$(sat).append(coming);
 	//~ $(sat).append(going);
 	//~ console.log(coming, going);
 }
 
+function animateClipPaths(){
+	$(document.getElementById("svg-object").contentDocument.getElementsByClassName("clip")).each(function(){
+		var change = 98,
+			width = 646,
+			layer = $(this)[0].attributes.layer.value,
+			boxId = $(this)[0].attributes.boxId.value,
+			when,
+			attribute,
+			open,
+			close,
+			when;
+			
+		if (layer == "6"){
+			when = "satellite.click";
+			attribute = "height";
+			change = 98;
+			open = "up";
+			close = "down";
+		}
+		else if (layer  == "7"){
+			when = "box_recomm.click";
+			attribute = "width";
+			change = 646;
+			open = "right";
+			close = "left";	
+		}
+		
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", attribute);
+		//~ initialHide.setAttribute("begin", "0s; " + when);
+		initialHide.setAttribute("begin", "0s");
+		initialHide.setAttribute("repeatCount", "indefinite");
+		initialHide.setAttribute("to", "0");
+		$(this).append(initialHide);
+
+		var show = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		show.setAttribute("attributeName", attribute);
+		show.setAttribute("attributeType", "XML");
+		show.setAttribute("from", change);
+		show.setAttribute("to", "0");
+		show.setAttribute("dur", "0.5s");
+		show.setAttribute("begin", open + "/" + layer + "/" + boxId + ".click" + "");
+		show.setAttribute("fill", "freeze");
+		$(this).append(show);
+
+		var hide = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		hide.setAttribute("attributeName", attribute);
+		hide.setAttribute("attributeType", "XML");
+		hide.setAttribute("from", "0");
+		hide.setAttribute("to", change);
+		hide.setAttribute("dur", "0.5s");
+		hide.setAttribute("begin", close + "/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("fill", "freeze");
+		$(this).append(hide);
+	});
+
+
+}
+
 function colMult(col1, col2){
 	col1 = hexToRgb(col1);
 	col2 = hexToRgb(col2);
-	
+
 	return rgbToHex(parseInt(col1.r * col2.r / 255), parseInt(col1.g * col2.g / 255), parseInt(col1.b * col2.b / 255));
 }
 
