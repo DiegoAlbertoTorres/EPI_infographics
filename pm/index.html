@@ -36,6 +36,10 @@ obj.addEventListener("load", function() {
         
         // Text boxes
         var box_recomm = object.getElementById("box_recomm");
+        var arrow1 = object.getElementById("arrowElement1");
+        var arrow2 = object.getElementById("arrowElement2");
+        var arrow3 = object.getElementById("arrowElement3");
+        var arrow4 = object.getElementById("arrowElement4");
 
         var goback2 = object.getElementById("goback2");
         var goback3 = object.getElementById("goback3");
@@ -63,6 +67,10 @@ obj.addEventListener("load", function() {
 		hoverColor(goback8);
 		
 		hoverColor(box_recomm);
+		hoverColor(arrow1);
+		hoverColor(arrow2);
+		hoverColor(arrow3);
+		hoverColor(arrow4);
 
 		// Satellite
         //~ animateOrbit(satellite, satOrbit);
@@ -119,65 +127,65 @@ obj.addEventListener("load", function() {
 		// Layer 4 effects
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "earth.click");
+			animateExit($(this), "earth.click; arrowElement3.click", "goback4.click");
 		});
 
 		// Animate entrance of layer 4
 		$(object.getElementsByClassName("layer4")).each(function(){
-			animateEnter($(this), "earth.click");
+			animateEnter($(this), "earth.click; arrowElement3.click", "goback3.click");
 		});
 
 		animateEarth(earth);
 
 		// Animate exit of layer 4 and reentry of layer 1
 		$(object.getElementsByClassName("layer4")).each(function(){
-			animateExit($(this), "goback4.click", "earth.click");
+			animateExit($(this), "goback4.click", "earth.click; arrowElement3.click");
 		});
 
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback4.click", "earth.click");
+			animateReenter($(this), "goback4.click", "earth.click; arrowElement3.click");
 		});
 
 		// Change to health impacts 1 (layer 5)!
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "health.click");
+			animateExit($(this), "health.click; arrowElement.click");
 		});
 
 		// Animate entrance of layer 5
 		$(object.getElementsByClassName("layer5")).each(function(){
-			animateEnter($(this), "health.click", "goback5.click");
+			animateEnter($(this), "health.click; arrowElement.click", "goback5.click");
 		});
 
 		// Animate exit of layer 5 and reentry of layer 1
 		$(object.getElementsByClassName("layer5")).each(function(){
-			animateExit($(this), "goback5.click", "health.click");
+			animateExit($(this), "goback5.click", "health.click; arrowElement.click");
 		});
 
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback5.click", "health.click");
+			animateReenter($(this), "goback5.click", "health.click; arrowElement.click");
 		});
 
 		// Change to monitoring (layer 6)!
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "satellite.click", "goback6.click");
+			animateExit($(this), "satellite.click; arrowElement4.click", "goback6.click");
 		});
 
 		// Animate entrance of layer 6
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateEnter($(this), "satellite.click", "goback6.click");
+			animateEnter($(this), "satellite.click; arrowElement4.click", "goback6.click");
 		});
 		
 		animateSat(satellite);
 
 		// Animate exit of layer 6 and reentry of layer 1
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateExit($(this), "goback6.click", "satellite.click");
+			animateExit($(this), "goback6.click", "satellite.click; arrowElement4.click");
 		});
 
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback6.click", "satellite.click");
+			animateReenter($(this), "goback6.click", "satellite.click; arrowElement4.click");
 		});
 		
 		// Change to recommendations (layer 7)!
@@ -197,6 +205,29 @@ obj.addEventListener("load", function() {
 
 		$(object.getElementsByClassName("layer1")).each(function(){
 			animateReenter($(this), "goback7.click", "box_recomm.click");
+		});
+		
+		for (var x = 1; x < 5; x++){
+			animateNum($(object.getElementById("numOpen/7/" + x)), x);
+			animateNum($(object.getElementById("numClose/7/" + x)), x);
+		}
+		
+		// Change to health 2 (layer 8)!
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "arrowElement2.click", "goback7.click");
+		});
+		// Animate entrance of layer 7
+		$(object.getElementsByClassName("layer8")).each(function(){
+			animateEnter($(this), "arrowElement2.click", "goback7.click");
+		});
+
+		// Animate exit of layer 7 and reentry of layer 1
+		$(object.getElementsByClassName("layer8")).each(function(){
+			animateExit($(this), "goback8.click", "arrowElement2.click");
+		});
+
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback8.click", "box_recomm.click");
 		});
 });
 
@@ -305,13 +336,14 @@ function animateEarth(obj){
 	var bbox = $(obj)[0].getBBox();
 	var cx = bbox.x + bbox.width/2;
 	var cy = bbox.y + bbox.height/2;
+	var when = "earth.click; arrowElement3.click";
 
 	var rot = document.createElementNS("http://www.w3.org/2000/svg","animateTransform");
 	rot.setAttribute("attributeName", "transform");
 	rot.setAttribute("type", "rotate");
 	rot.setAttribute("from", "0 " + cx + " " + cy);
 	rot.setAttribute("to", "230 " + cx + " " + cy);
-	rot.setAttribute("begin", "earth.click");
+	rot.setAttribute("begin", when);
 	rot.setAttribute("end", "goback4.click");
 	rot.setAttribute("dur", "1s");
 	rot.setAttribute("repeatCount", "1");
@@ -319,21 +351,21 @@ function animateEarth(obj){
 	//~ rot.setAttribute("additive", "sum");
 	$(obj).append(rot);
 
-	var movx = 143;
-	var movy = 403;
+	//~ var movx = 143;
+	//~ var movy = 403;
 
-	//~ var movx = 0;
-	//~ var movy = 0;
+	var movx = 0;
+	var movy = 0;
 
 	var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 	move.setAttribute("from", movx +"," + movy);
 	move.setAttribute("to", (movx+220) +"," + (movy+40));
-	move.setAttribute("begin", "earth.click");
+	move.setAttribute("begin", when);
 	move.setAttribute("end", "goback4.click");
 	move.setAttribute("dur", "1s");
 	move.setAttribute("repeatCount", "1");
 	move.setAttribute("fill", "freeze");
-	move.setAttribute("additive", "sum");
+	//~ move.setAttribute("additive", "sum");
 
 	//~ rot.setAttribute("additive", "sum");
 	$(obj).append(move);
@@ -343,7 +375,7 @@ function animateEarth(obj){
 	scale.setAttribute("type", "scale");
 	scale.setAttribute("from", "1 1");
 	scale.setAttribute("to", "0.97 0.97");
-	scale.setAttribute("begin", "earth.click");
+	scale.setAttribute("begin", when);
 	scale.setAttribute("end", "goback4.click");
 	scale.setAttribute("dur", "1s");
 	scale.setAttribute("repeatCount", "1");
@@ -362,18 +394,18 @@ function animateEarth(obj){
 	rot2.setAttribute("from", "230 " + cx + " " + cy);
 	rot2.setAttribute("to", "0 " + cx + " " + cy);
 	rot2.setAttribute("begin", "goback4.click");
-	rot2.setAttribute("end", "earth.click");
+	rot2.setAttribute("end", when);
 	rot2.setAttribute("dur", "1s");
 	rot2.setAttribute("repeatCount", "1");
 	rot2.setAttribute("fill", "freeze");
-	//~ rot2.setAttribute("additive", "sum");
+	rot2.setAttribute("additive", "replace");
 	$(obj).append(rot2);
 
 	var move2 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 	move2.setAttribute("from", (movx+220) +"," + (movy+40));
 	move2.setAttribute("to", movx +"," + movy);
 	move2.setAttribute("begin", "goback4.click");
-	move2.setAttribute("end", "earth.click");
+	move2.setAttribute("end", when);
 	move2.setAttribute("dur", "1s");
 	move2.setAttribute("repeatCount", "1");
 	move2.setAttribute("fill", "freeze");
@@ -386,7 +418,7 @@ function animateEarth(obj){
 	scale2.setAttribute("from", "0.97 0.97");
 	scale2.setAttribute("to", "1 1");
 	scale2.setAttribute("begin", "goback4.click");
-	scale2.setAttribute("end", "earth.click");
+	scale2.setAttribute("end", when);
 	scale2.setAttribute("dur", "1s");
 	scale2.setAttribute("repeatCount", "1");
 	scale2.setAttribute("fill", "freeze");
@@ -399,6 +431,7 @@ function hoverColor(object){
     if (object == null)
         return;
 	var types = "path, circle, rect, polygon";
+	
 	$(object).attr("cursor", "pointer").attr("pointer-events", "auto");
 	if ($(object)[0].attributes.id.value == "earth"){
 		$(object).hover(function(){
@@ -414,28 +447,56 @@ function hoverColor(object){
 			});
 		});
 	}
+	else if ($(object)[0].attributes.class && $(object)[0].attributes.class.value == "arrowElement"){
+		$(object).find("path.arrowBox").each(function(){
+			$(this).css("visibility", "hidden");
+		});
+		$(object).hover(function(){
+			$(object).find("path").each(function(){
+				var origFill = colorToHex($(this).css("fill"));
+				var origOpacity;
+				var newFill;
+					
+				$(this)[0].attributes.origFill = origFill;
+				$(this).css("fill", colMult(origFill, "#2bc0d2"));
+				if ($(this).attr("class") == "arrowBox")
+					$(this).css("visibility", "visible");
+				if ($(this).attr("class") == "arrow")
+					$(this).css("opacity", "1");
+			});
+		},
+		function() {
+			$(object).find("path").each(function(){
+				$(this).css("fill", colorToHex($(this)[0].attributes.origFill));
+				if ($(this).attr("class") == "arrowBox")
+					$(this).css("visibility", "hidden");
+				if ($(this).attr("class") == "arrow")
+					$(this).css("opacity", "0.3");
+			});
+		});
+	}
 	// This should be all types
 	else if ($(object).prop('tagName') == 'polygon'){
 		$(object).hover(function(){
 			var origFill = colorToHex($(this).css("fill"));
-			$(this)[0].attributes.originalFill = origFill;
+			$(this)[0].attributes.origFill = origFill;
 			$(this).css("fill", colMult(origFill, "#2bc0d2"));
 		},
 		function() {
-			$(this).css("fill", colorToHex($(this)[0].attributes.originalFill));
+			$(this).css("fill", colorToHex($(this)[0].attributes.origFill));
 		});
 	}
 	else {
 		$(object).hover(function(){
 			$(object).find(types).each(function(){
 				var origFill = colorToHex($(this).css("fill"));
-				$(this)[0].attributes.originalFill = origFill;
+				$(this)[0].attributes.origFill = origFill;
 				$(this).css("fill", colMult(origFill, "#2bc0d2"));
 			});
 		},
 		function() {
 			$(object).find(types).each(function(){
-				$(this).css("fill", colorToHex($(this)[0].attributes.originalFill));
+				$(this).css("fill", colorToHex($(this)[0].attributes.origFill));
 			});
 		});
 	}
@@ -476,6 +537,7 @@ function animateReenter(obj, when, end){
 		anim.setAttribute("dur", "1s");
 		anim.setAttribute("fill", "freeze");
 		//~ anim.setAttribute("additive", "sum");
+		//~ anim.setAttribute("additive", "replace");
 		anim.setAttribute("repeatCount", "1");
 
 		obj.append(anim);
@@ -534,6 +596,7 @@ function animateEnter(obj, when, end){
 	else if (effect == "fade"){
 		// Ugly hack to make text move into frame on click
 		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		var types = "text, path, polyline, circle, image, polygon";
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "1600,0");
 		move.setAttribute("begin", when);
@@ -543,7 +606,7 @@ function animateEnter(obj, when, end){
 		move.setAttribute("fill", "freeze");
 		obj.append(move);
 
-		obj.find("text, path, polyline").addBack("text, path, polyline").each(function(){
+		obj.find(types).addBack(types).each(function(){
 			// Save original opacity
 			var origOpacity = $(this).css("opacity");
 
@@ -695,6 +758,11 @@ function animateEnter(obj, when, end){
 	else if (effect == "drawLine"){
 		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		anim.setAttribute("from", "0,0");
+		var close;
+		var time = "2s";
+		
+		if(obj.attr("time"))
+			time = obj.attr("time") + "s";
 
 		if (obj[0].attributes.enter.value == "left")
 			anim.setAttribute("to", "1600,0");
@@ -709,11 +777,34 @@ function animateEnter(obj, when, end){
 		anim.setAttribute("end", end);
 		anim.setAttribute("dur", "0.01s");
 		anim.setAttribute("fill", "freeze");
-		//~ anim.setAttribute("additive", "sum");
+		anim.setAttribute("additive", "replace");
 		anim.setAttribute("repeatCount", "1");
 		obj.append(anim);
 		
-		obj.find("path").each(function(){
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", "opacity");
+		initialHide.setAttribute("begin", when);
+		initialHide.setAttribute("to", "0");
+		obj.append(initialHide);
+		
+		var fadeFirst = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		fadeFirst.setAttribute("attributeName", "opacity");
+		fadeFirst.setAttribute("attributeType", "XML");
+		fadeFirst.setAttribute("from", "0");
+		fadeFirst.setAttribute("to", "1");
+		fadeFirst.setAttribute("dur", "1s");
+		fadeFirst.setAttribute("begin", when + " + " + (delay + 2) + "s");
+		fadeFirst.setAttribute("fill", "freeze");
+		obj.append(fadeFirst);
+		
+		if (obj.attr("when")){
+			when = "numOpen/" + obj.attr("layer") + "/" + obj.attr("boxId") + ".click";
+			when += "; left/" + obj.attr("layer") + "/" + obj.attr("boxId") + ".click";
+			close = "numClose/" + obj.attr("layer") + "/" + obj.attr("boxId") + ".click";
+			close += "; right/" + obj.attr("layer") + "/" + obj.attr("boxId") + ".click";
+		}
+		
+		obj.find("path").addBack("path").each(function(){
 			var pathLength = $(this)[0].getTotalLength(),
 				miterLimit = 10;
 
@@ -723,7 +814,7 @@ function animateEnter(obj, when, end){
 			
 			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
 			initialHide.setAttribute("attributeName", "stroke-dashoffset");
-			initialHide.setAttribute("begin", when);
+			initialHide.setAttribute("begin", "0s");
 			initialHide.setAttribute("to", pathLength);
 			$(this).append(initialHide);
 			
@@ -733,16 +824,30 @@ function animateEnter(obj, when, end){
 			draw.setAttribute("attributeType", "XML");
 			draw.setAttribute("from", pathLength);
 			draw.setAttribute("to", "0");
-			draw.setAttribute("dur", "2s");
+			draw.setAttribute("dur", time);
 			draw.setAttribute("begin", when + " + " + delay + "s");
 			draw.setAttribute("end", end);
 			draw.setAttribute("fill", "freeze");
 			$(this).append(draw);
+			
+			// Draw animation
+			if (obj.attr("when")){
+				var undraw = document.createElementNS("http://www.w3.org/2000/svg","animate");
+				undraw.setAttribute("attributeName", "stroke-dashoffset");
+				undraw.setAttribute("attributeType", "XML");
+				undraw.setAttribute("from", "0");
+				undraw.setAttribute("to", pathLength);
+				undraw.setAttribute("dur", time);
+				undraw.setAttribute("begin", close);
+				undraw.setAttribute("end", end);
+				undraw.setAttribute("fill", "freeze");
+				$(this).append(undraw);
+			}
 		});
 		obj.find("circle").each(function(){
 			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
 			initialHide.setAttribute("attributeName", "opacity");
-			initialHide.setAttribute("begin", when);
+			initialHide.setAttribute("begin", "0s");
 			initialHide.setAttribute("to", "0");
 			$(this).append(initialHide);
 			
@@ -755,6 +860,18 @@ function animateEnter(obj, when, end){
 			fadeIn.setAttribute("begin", when + " + 1s");
 			fadeIn.setAttribute("fill", "freeze");
 			$(this).append(fadeIn);
+			
+			if (obj.attr("when")){
+				var fadeOut = document.createElementNS("http://www.w3.org/2000/svg","animate");
+				fadeOut.setAttribute("attributeName", "opacity");
+				fadeOut.setAttribute("attributeType", "XML");
+				fadeOut.setAttribute("from", "1");
+				fadeOut.setAttribute("to", "0");
+				fadeOut.setAttribute("dur", "1s");
+				fadeOut.setAttribute("begin", close);
+				fadeOut.setAttribute("fill", "freeze");
+				$(this).append(fadeOut);
+			}
 		});
 	}
 	else if (effect == "drawInfoBox"){
@@ -1005,34 +1122,34 @@ function animateEnter(obj, when, end){
 
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
-				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click");
-				set.setAttribute("to", "hidden");
+				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "visible");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
 
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
-				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click");
-				set.setAttribute("to", "visible");
+				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click numOpen/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "hidden");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
 			}
 			else if (arrowType == "left"){
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
-				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click");
-				set.setAttribute("to", "hidden");
+				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "visible");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
 
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
-				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click");
-				set.setAttribute("to", "visible");
+				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
+				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
+				set.setAttribute("to", "hidden");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
 			}
@@ -1044,7 +1161,7 @@ function animateEnter(obj, when, end){
 
 function animateExit(obj, when, end){
 	// Special exceptions go here
-	if ((when == "earth.click" && obj[0].attributes.id.value == "earth") ||
+	if ((when == "earth.click; arrowElement3.click" && obj[0].attributes.id.value == "earth") ||
 		(when == "goback4.click" && obj[0].attributes.id.value == "earth") ||
 		(when == "satellite.click" && obj[0].attributes.id.value == "satellite") ||
 		(when == "box_recomm.click" && obj[0].attributes.id.value == "satellite") ||
@@ -1052,9 +1169,9 @@ function animateExit(obj, when, end){
 		return;
 	}
 	var effect = obj[0].attributes.exitEffect.value;
-	var exitDelay = "0";
+	var exitDelay = 0;
 	if (obj[0].attributes.exitDelay)
-		exitDelay = obj[0].attributes.exitDelay.value;
+		exitDelay = parseFloat(obj[0].attributes.exitDelay.value);
 	
 	var anim;
 	if (effect == "slide"){
@@ -1089,18 +1206,20 @@ function animateExit(obj, when, end){
 		anim.setAttribute("repeatCount", "1");
 	}
 	else if (effect == "fade"){
-		var fadetime = "1s";
+		var fadeTime = 1;
 		// Ugly hack to make text move into frame on click
 		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		var types = "text, path, polyline, circle, image, polygon";
+		
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "-1600,0");
-		move.setAttribute("begin", when + "+" + fadetime);
+		move.setAttribute("begin", when + " + " + (fadeTime + exitDelay) + "s");
 		move.setAttribute("dur", "0.001s");
 		move.setAttribute("repeatCount", "1");
 		move.setAttribute("fill", "freeze");
 		obj.append(move);
 
-		obj.find("text, path, polyline").each(function(){
+		obj.find(types).addBack(types).each(function(){
 			// Save original opacity
 			var origOpacity = $(this).css("opacity");
 
@@ -1110,7 +1229,7 @@ function animateExit(obj, when, end){
 			subAnim.setAttribute("attributeType", "XML");
 			subAnim.setAttribute("from", origOpacity);
 			subAnim.setAttribute("to", 0);
-			subAnim.setAttribute("dur", "1s");
+			subAnim.setAttribute("dur", fadeTime + "s");
 			subAnim.setAttribute("begin", when + "+" + exitDelay + "s");
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
@@ -1180,28 +1299,73 @@ function animateClipPaths(){
 		initialHide.setAttribute("to", "0");
 		$(this).append(initialHide);
 
-		var show = document.createElementNS("http://www.w3.org/2000/svg","animate");
-		show.setAttribute("attributeName", attribute);
-		show.setAttribute("attributeType", "XML");
-		show.setAttribute("from", change);
-		show.setAttribute("to", "0");
-		show.setAttribute("dur", "0.5s");
-		show.setAttribute("begin", open + "/" + layer + "/" + boxId + ".click" + "");
-		show.setAttribute("fill", "freeze");
-		$(this).append(show);
-
 		var hide = document.createElementNS("http://www.w3.org/2000/svg","animate");
 		hide.setAttribute("attributeName", attribute);
 		hide.setAttribute("attributeType", "XML");
-		hide.setAttribute("from", "0");
-		hide.setAttribute("to", change);
+		hide.setAttribute("from", change);
+		hide.setAttribute("to", "0");
 		hide.setAttribute("dur", "0.5s");
-		hide.setAttribute("begin", close + "/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("begin", open + "/" + layer + "/" + boxId + ".click" + "; numClose" + "/" + layer + "/" + boxId + ".click");
 		hide.setAttribute("fill", "freeze");
 		$(this).append(hide);
+
+		var show = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		show.setAttribute("attributeName", attribute);
+		show.setAttribute("attributeType", "XML");
+		show.setAttribute("from", "0");
+		show.setAttribute("to", change);
+		show.setAttribute("dur", "0.5s");
+		show.setAttribute("begin", close + "/" + layer + "/" + boxId + ".click" + "; numOpen" + "/" + layer + "/" + boxId + ".click");
+		show.setAttribute("fill", "freeze");
+		$(this).append(show);
 	});
 
 
+}
+
+function animateNum(num, boxId){
+	var layer = 7;
+	$(num).attr("cursor", "pointer").attr("pointer-events", "auto");
+	if ($(num).attr("type") == "open"){
+		set = document.createElementNS("http://www.w3.org/2000/svg","set");
+		set.setAttribute("attributeName", "visibility");
+		set.setAttribute("begin", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
+		set.setAttribute("end", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
+		set.setAttribute("to", "hidden");
+		set.setAttribute("repeatCount", "indefinite");
+		$(num).append(set);
+
+		set = document.createElementNS("http://www.w3.org/2000/svg","set");
+		set.setAttribute("attributeName", "visibility");
+		set.setAttribute("begin", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
+		set.setAttribute("end", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
+		set.setAttribute("to", "visible");
+		set.setAttribute("repeatCount", "indefinite");
+		$(num).append(set);
+	}
+	else if ($(num).attr("type") == "close"){
+		set = document.createElementNS("http://www.w3.org/2000/svg","set");
+		set.setAttribute("attributeName", "visibility");
+		set.setAttribute("begin", "0s");
+		set.setAttribute("to", "hidden");
+		$(num).append(set);
+		
+		set = document.createElementNS("http://www.w3.org/2000/svg","set");
+		set.setAttribute("attributeName", "visibility");
+		set.setAttribute("begin", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
+		set.setAttribute("end", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
+		set.setAttribute("to", "hidden");
+		set.setAttribute("repeatCount", "indefinite");
+		$(num).append(set);
+
+		set = document.createElementNS("http://www.w3.org/2000/svg","set");
+		set.setAttribute("attributeName", "visibility");
+		set.setAttribute("begin", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
+		set.setAttribute("end", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
+		set.setAttribute("to", "visible");
+		set.setAttribute("repeatCount", "indefinite");
+		$(num).append(set);
+	}
 }
 
 function colMult(col1, col2){
