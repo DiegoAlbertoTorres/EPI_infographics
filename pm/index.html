@@ -547,15 +547,15 @@ function animateReenter(obj, when, end){
 
 function animateEnter(obj, when, end){
 	var anim;
-	var delay = "0";
+	var delay = 0;
 	
 	if (!obj[0].attributes.enterEffect)
 		return;
 		
 	var effect = obj[0].attributes.enterEffect.value;
 
-	if (obj[0].attributes.delay)
-		delay = obj[0].attributes.delay.value;
+	if (obj.attr("delay"))
+		delay = parseFloat(obj.attr("delay"));
 
 	if (effect == "slide"){
 		anim = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
@@ -624,7 +624,7 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("from", "0");
 			subAnim.setAttribute("to", origOpacity);
 			subAnim.setAttribute("dur", "1s");
-			subAnim.setAttribute("begin", when + "+" + delay + "s");
+			subAnim.setAttribute("begin", addDelay(when, delay));
 			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
@@ -704,10 +704,11 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("from", "0.01");
 			subAnim.setAttribute("to", $(this)[0].attributes.prevR.value);
 			subAnim.setAttribute("dur", "0.7s");
-			subAnim.setAttribute("begin", when + "+" + (delay + rand) + "s");
+			subAnim.setAttribute("begin", addDelay(when, (delay+rand)));
 			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
+			console.log(subAnim);
 		});
 
 		obj.find("text, path").each(function(){
@@ -731,7 +732,7 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("from", "0");
 			subAnim.setAttribute("to", "1");
 			subAnim.setAttribute("dur", "0.7s");
-			subAnim.setAttribute("begin", when + "+" + (rand + delay + delay2) + "s");
+			subAnim.setAttribute("begin", addDelay(when, (rand + delay + delay2)));
 			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
@@ -1406,6 +1407,12 @@ function colorToHex(color) {
     var rgb = blue | (green << 8) | (red << 16);
     return digits[1] + '#' + rgb.toString(16);
 };
+
+function addDelay(when, delay){
+	var i = when.indexOf(";");
+	if (i < 0 ) return when + " + " + delay + "s";
+	return when.slice(0,i) + " + " + delay + "s" + when.slice(i, when.length-1) + " + " + delay + "s";
+}
 
 // Return random float in range [0,n)
 function random(n){
