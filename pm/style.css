@@ -22,11 +22,13 @@ object{
 
 #mapFrame{
 	position: absolute;
+/*
 	top: 1%;
 	left: 16.4%;
 	margin: auto auto auto auto;
 	width: 68.3%;
 	height: 86%;
+*/
 	display: none;
 }
 
