@@ -25,6 +25,10 @@ var dirtPath = "m 0,0 c 190.9316,51.57138 161.6928,-198.04896 283.4731,-123.8860
 
 var vapePath = "m 0,0 c -164.9509,43.98284 44.23935,-414.1828 -103.4808,-370.00386 -39.37602,11.77628 13.76082,-96.70827 -23.09853,-91.55602 -71.17621,9.94911 -71.32339,48.3845 -138.3562,-66.52786 -15.14246,-25.95827 -63.64,37.1106 -63.64,37.1106";
 
+var iframe = "<iframe id=\"mapFrame\" frameBorder=\"0\" src=\"http://epi.yale.edu/pollution-map/\"></iframe>";
+
+var mapArrow = "<div id=\"mapGoBack\"></div>";
+
 var obj = document.getElementById("svg-object");
 obj.addEventListener("load", function() {
         var object = obj.contentDocument;
@@ -71,10 +75,13 @@ obj.addEventListener("load", function() {
         var goback6 = object.getElementById("goback6");
         var goback7 = object.getElementById("goback7");
         var goback8 = object.getElementById("goback8");
+        
+        var mapBox = object.getElementById("mapBox");
 
 		// Layer 1 (particulate matter) effects
 		
 		// Hover effects
+		hoverColor(mapBox);
 		hoverColor(warped);
 		hoverColor(clouds);
 		hoverColor(satellite);
@@ -204,6 +211,20 @@ obj.addEventListener("load", function() {
 		});
 		
 		animateSat(satellite);
+		
+		// Click event for pollution map
+		$(mapBox).click(function(){
+			// Insert iframe at abs on top of document
+			var $mapFrame = $(iframe).appendTo($("body"));
+			var $mapGoBack = $(mapArrow).appendTo($("body"));
+			
+			$(mapGoBack).attr("cursor", "pointer").attr("pointer-events", "auto");
+			console.log($(mapGoBack));
+			$(mapGoBack).click(function(){
+				$(this).remove();
+				$(mapFrame).remove();
+			});
+		});
 
 		// Animate exit of layer 6 and reentry of layer 1
 		$(object.getElementsByClassName("layer6")).each(function(){
@@ -701,6 +722,18 @@ function hoverColor(object){
 		},
 		function() {
 			$(object).css("fill", "#f5c714");
+		});
+	}
+	else if ($(object).attr("id") == "mapBox"){
+		$(object).hover(function(){
+			$(object).find("tspan").each(function(){
+				$(this).css("fill", "#2bc0d2");
+			});
+		},
+		function() {
+			$(object).find("tspan").each(function(){
+				$(this).css("fill", "#fff");
+			});
 		});
 	}
 	else if ($(object)[0].attributes.class && $(object)[0].attributes.class.value == "arrowElement"){

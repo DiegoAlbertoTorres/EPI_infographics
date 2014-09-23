@@ -11,9 +11,34 @@ body{
 .svg{
 
 }
+
 object{
 
 	position: absolute;
 }
+
 .footer{
+}
+
+#mapFrame{
+	position: absolute;
+	top: 1%;
+	left: 16.4%;
+	margin: auto auto auto auto;
+	width: 68.3%;
+	height: 86%;
+}
+
+#mapGoBack {
+	width: 0; 
+	height: 0; 
+	border-bottom: 40px solid transparent;  /* left arrow slant */
+	border-top: 40px solid transparent; /* right arrow slant */
+	border-right: 40px solid #f5c714; /* bottom, add background color here */
+	font-size: 0;
+	line-height: 0;
+	
+	position: absolute;
+	left: 12%;
+	top: 1.5%;
 }
