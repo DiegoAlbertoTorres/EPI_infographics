@@ -27,6 +27,7 @@ object{
 	margin: auto auto auto auto;
 	width: 68.3%;
 	height: 86%;
+	display: none;
 }
 
 #mapGoBack {
@@ -37,6 +38,8 @@ object{
 	border-right: 40px solid #f5c714; /* bottom, add background color here */
 	font-size: 0;
 	line-height: 0;
+	cursor: pointer;
+	display: none;
 	
 	position: absolute;
 	left: 12%;

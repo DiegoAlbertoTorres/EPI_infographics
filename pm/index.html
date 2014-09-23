@@ -216,13 +216,19 @@ obj.addEventListener("load", function() {
 		$(mapBox).click(function(){
 			// Insert iframe at abs on top of document
 			var $mapFrame = $(iframe).appendTo($("body"));
+			$(mapFrame).fadeIn(1000);
 			var $mapGoBack = $(mapArrow).appendTo($("body"));
+			$(mapGoBack).fadeIn(1000);
 			
-			$(mapGoBack).attr("cursor", "pointer").attr("pointer-events", "auto");
-			console.log($(mapGoBack));
+			$(mapGoBack).hover(function(){
+				$(this).css("border-right", "40px solid #2bc0d2");
+			},
+			function() {
+				$(this).css("border-right", "40px solid #f5c714");
+			});
 			$(mapGoBack).click(function(){
-				$(this).remove();
-				$(mapFrame).remove();
+				$(this).fadeOut(1000);
+				$(mapFrame).fadeOut(1000);
 			});
 		});
 
