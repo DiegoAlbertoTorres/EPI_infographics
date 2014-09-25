@@ -596,14 +596,14 @@ function colorTemp(obj, begin1, begin2, end){
 		var set1 = document.createElementNS("http://www.w3.org/2000/svg","set");
 		set1.setAttribute("attributeName", "fill");
 		set1.setAttribute("begin", begin1);
-		set1.setAttribute("end", end);
+		//set1.setAttribute("end", end);
 		set1.setAttribute("to", "#ff0000");
 		$(this).append(set1);
 		
 		var set2 = document.createElementNS("http://www.w3.org/2000/svg","set");
 		set2.setAttribute("attributeName", "fill");
 		set2.setAttribute("begin", begin2);
-		set2.setAttribute("end", end);
+		//set2.setAttribute("end", end);
 		set2.setAttribute("to", ogColor);
 		$(this).append(set2);
 	});
@@ -996,7 +996,7 @@ function animateEnter(obj, when, end){
 			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
 			set.setAttribute("attributeName", "r");
 			set.setAttribute("begin", when);
-			set.setAttribute("end", end);
+			//set.setAttribute("end", end);
 			set.setAttribute("to", "0");
 			$(this).append(set);
 
@@ -1027,7 +1027,7 @@ function animateEnter(obj, when, end){
 			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
 			set.setAttribute("attributeName", "opacity");
 			set.setAttribute("begin", when);
-			set.setAttribute("end", end);
+			//set.setAttribute("end", end);
 			set.setAttribute("to", "0");
 			$(this).append(set);
 
@@ -1055,6 +1055,7 @@ function animateEnter(obj, when, end){
 			move.setAttribute("begin", addDelay(when,delay));
 			move.setAttribute("end", end);
 			move.setAttribute("dur", "1s");
+			move.setAttribute("additive", "replace");
 			//~ move.setAttribute("repeatCount", "1");
 			move.setAttribute("fill", "freeze");
 			$(this).append(move);
@@ -1138,21 +1139,21 @@ function animateEnter(obj, when, end){
 				var initOffset = document.createElementNS("http://www.w3.org/2000/svg","set");
 				initOffset.setAttribute("attributeName", "stroke-dashoffset");
 				initOffset.setAttribute("begin", when);
-				initOffset.setAttribute("end", end);
+				//initOffset.setAttribute("end", end);
 				initOffset.setAttribute("to", pathLength);
 				$(this).append(initOffset);
 				
 				var initArray = document.createElementNS("http://www.w3.org/2000/svg","set");
 				initArray.setAttribute("attributeName", "stroke-dasharray");
 				initArray.setAttribute("begin", when);
-				initArray.setAttribute("end", end);
+				//initArray.setAttribute("end", end);
 				initArray.setAttribute("to", pathLength + " " + pathLength);
 				$(this).append(initArray);
 				
 				var initMiter = document.createElementNS("http://www.w3.org/2000/svg","set");
 				initMiter.setAttribute("attributeName", "stroke-miterlimit");
 				initMiter.setAttribute("begin", when);
-				initMiter.setAttribute("end", end);
+				//initMiter.setAttribute("end", end);
 				initMiter.setAttribute("to", miterLimit);
 				$(this).append(initMiter);
 			}
@@ -1343,7 +1344,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "up/" + layer + "/" + boxId + ".click");
-					set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
+					//set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "hidden");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1351,7 +1352,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "down/" + layer + "/" + boxId + ".click");
-					set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
+					//set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "visible");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1360,7 +1361,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "down/" + layer + "/" + boxId + ".click");
-					set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
+					//set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "hidden");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1368,7 +1369,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "up/" + layer + "/" + boxId + ".click");
-					set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
+					//set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "visible");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1459,7 +1460,7 @@ function animateEnter(obj, when, end){
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
 				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
+				//set.setAttribute("end", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
 				set.setAttribute("to", "visible");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
@@ -1467,7 +1468,7 @@ function animateEnter(obj, when, end){
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
 				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click numOpen/" + layer + "/" + boxId + ".click");
+				//set.setAttribute("end", "left/" + layer + "/" + boxId + ".click numOpen/" + layer + "/" + boxId + ".click");
 				set.setAttribute("to", "hidden");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
@@ -1476,7 +1477,7 @@ function animateEnter(obj, when, end){
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
 				set.setAttribute("begin", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
+				//set.setAttribute("end", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
 				set.setAttribute("to", "visible");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
@@ -1484,7 +1485,7 @@ function animateEnter(obj, when, end){
 				set = document.createElementNS("http://www.w3.org/2000/svg","set");
 				set.setAttribute("attributeName", "visibility");
 				set.setAttribute("begin", "left/" + layer + "/" + boxId + ".click; numOpen/" + layer + "/" + boxId + ".click");
-				set.setAttribute("end", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
+				//set.setAttribute("end", "right/" + layer + "/" + boxId + ".click; numClose/" + layer + "/" + boxId + ".click");
 				set.setAttribute("to", "hidden");
 				set.setAttribute("repeatCount", "indefinite");
 				$(this).append(set);
@@ -1581,6 +1582,23 @@ function animateExit(obj, when, end){
 			$(this).append(set);
 		});
 	}
+	else if (effect == "fan"){
+		var delay = 0;
+		var at = ($(obj)[0].attributes.fan.value == "left") ? 1600 : -1600;
+		obj.children().each(function(){
+			var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+			move.setAttribute("from", at + ",0");
+			move.setAttribute("to", "0,0");
+			move.setAttribute("begin", addDelay(when,delay));
+			move.setAttribute("end", end);
+			move.setAttribute("dur", "1s");
+			//move.setAttribute("additive", "replace");
+			//~ move.setAttribute("repeatCount", "1");
+			move.setAttribute("fill", "freeze");
+			$(this).append(move);
+			delay += 0.1;
+		});
+	}
 	obj.append(anim);
 }
 
@@ -1673,7 +1691,7 @@ function animateNum(num, boxId){
 		set = document.createElementNS("http://www.w3.org/2000/svg","set");
 		set.setAttribute("attributeName", "visibility");
 		set.setAttribute("begin", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
-		set.setAttribute("end", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
+		//set.setAttribute("end", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
 		set.setAttribute("to", "hidden");
 		set.setAttribute("repeatCount", "indefinite");
 		$(num).append(set);
@@ -1681,7 +1699,7 @@ function animateNum(num, boxId){
 		set = document.createElementNS("http://www.w3.org/2000/svg","set");
 		set.setAttribute("attributeName", "visibility");
 		set.setAttribute("begin", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
-		set.setAttribute("end", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
+		//set.setAttribute("end", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
 		set.setAttribute("to", "visible");
 		set.setAttribute("repeatCount", "indefinite");
 		$(num).append(set);
@@ -1696,7 +1714,7 @@ function animateNum(num, boxId){
 		set = document.createElementNS("http://www.w3.org/2000/svg","set");
 		set.setAttribute("attributeName", "visibility");
 		set.setAttribute("begin", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
-		set.setAttribute("end", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
+		//set.setAttribute("end", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
 		set.setAttribute("to", "hidden");
 		set.setAttribute("repeatCount", "indefinite");
 		$(num).append(set);
@@ -1704,7 +1722,7 @@ function animateNum(num, boxId){
 		set = document.createElementNS("http://www.w3.org/2000/svg","set");
 		set.setAttribute("attributeName", "visibility");
 		set.setAttribute("begin", "numOpen/" + layer + "/" + boxId + ".click; left/" + layer + "/" + boxId + ".click");
-		set.setAttribute("end", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
+		//set.setAttribute("end", "numClose/" + layer + "/" + boxId + ".click; right/" + layer + "/" + boxId + ".click");
 		set.setAttribute("to", "visible");
 		set.setAttribute("repeatCount", "indefinite");
 		$(num).append(set);
