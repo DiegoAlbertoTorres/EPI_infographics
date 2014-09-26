@@ -52,3 +52,9 @@ object{
 	left: 95%;
 	top: 85%;
 }
+
+
+@font-face {
+  font-family: 'PFCentroSansPro-Regular';
+  src: url("./centrosansproregular.otf");
+}

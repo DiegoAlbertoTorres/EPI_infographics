@@ -6,7 +6,7 @@
 </head>
 <body>
 	
-<object id="svg-object" type="image/svg+xml" data="./pmfinal/root.svg" 	width="100%" height="100%";>
+<object id="svg-object" type="image/svg+xml" data="./root.svg" 	width="100%" height="100%";>
 	Your browser does not support SVG
 </object>
 
@@ -79,6 +79,8 @@ obj.addEventListener("load", function() {
         var goback8 = object.getElementById("goback8");
         
         var mapBox = object.getElementById("mapBox");
+        
+        var references = object.getElementById("references");
 
 		// Layer 1 (particulate matter) effects
 		
@@ -109,6 +111,7 @@ obj.addEventListener("load", function() {
 
 		animateClipPaths();
 		animateTabs(directTab, indirectTab, arrow1Back);
+		animateRef(references);
 
         // Change to direct emissions (layer 2)!
 
@@ -300,6 +303,23 @@ function animateTabs(tab1, tab2, arrow1Back){
 	function() {
 		$(arrow1Back).css("fill", "#ffffff");
 		$(arrow1Back).css("visibility", "hidden");
+	});
+}
+
+function animateRef(ref){
+	$(ref).hover(function(){
+		$(ref).find("tspan").each(function(){
+			$(this).css("fill", "#C85B22");
+		});
+	},
+	function() {
+		$(ref).find("tspan").each(function(){
+			$(this).css("fill", "#000");
+		});
+	});
+	$(ref).attr("cursor", "pointer").attr("pointer-events", "auto");
+	$(ref).click(function(){
+		window.location = "http://www.sciencedirect.com/science/article/pii/S1352231013006250";
 	});
 }
 
@@ -711,16 +731,36 @@ function hoverColor(object){
 	
 	$(object).attr("cursor", "pointer").attr("pointer-events", "auto");
 	if ($(object).attr("id") == "earth"){
+		complement = 0;
+		complement = obj.contentDocument.getElementById("arrowElement3");
 		$(object).hover(function(){
 			$(object).find(types).each(function(){
 				if ($(this)[0].attributes.id.value == "earth_outline")
 					$(this).css("fill", "#2bc0d2");
+				if (complement){
+					$(complement).find("path").each(function(){
+						$(this).css("fill", "#2bc0d2");
+						if ($(this).attr("class") == "arrowBox")
+							$(this).css("visibility", "visible");
+						if ($(this).attr("class") == "arrow")
+							$(this).css("opacity", "1");
+					});
+				}
 			});
 		},
 		function() {
 			$(object).find(types).each(function(){
 				if ($(this)[0].attributes.id.value == "earth_outline")
 					$(this).css("fill", "#ffffff");
+				if (complement){
+					$(complement).find("path").each(function(){
+						$(this).css("fill", "#fff");
+						if ($(this).attr("class") == "arrowBox")
+							$(this).css("visibility", "hidden");
+						if ($(this).attr("class") == "arrow")
+							$(this).css("opacity", "0.3");
+					});
+				}
 			});
 		});
 	}
@@ -784,16 +824,44 @@ function hoverColor(object){
 		});
 	}
 	else {
+		var complement = 0;
+		if ($(object).attr("id") == "warped_city")
+			complement = obj.contentDocument.getElementById("arrowElement1");
+		else if ($(object).attr("id") == "clouds")
+			complement = obj.contentDocument.getElementById("arrowElement1");
+		else if ($(object).attr("id") == "health")
+			complement = obj.contentDocument.getElementById("arrowElement2");
+		else if ($(object).attr("id") == "satellite")
+			complement = obj.contentDocument.getElementById("arrowElement4");
 		$(object).hover(function(){
 			$(object).find(types).each(function(){
 				var origFill = colorToHex($(this).css("fill"));
 				$(this)[0].attributes.origFill = origFill;
 				$(this).css("fill", colMult(origFill, "#2bc0d2"));
+				
+				if (complement){
+					$(complement).find("path").each(function(){
+						$(this).css("fill", colMult(origFill, "#2bc0d2"));
+						if ($(this).attr("class") == "arrowBox")
+							$(this).css("visibility", "visible");
+						if ($(this).attr("class") == "arrow")
+							$(this).css("opacity", "1");
+					});
+				}
 			});
 		},
 		function() {
 			$(object).find(types).each(function(){
 				$(this).css("fill", colorToHex($(this)[0].attributes.origFill));
+				if (complement){
+					$(complement).find("path").each(function(){
+						$(this).css("fill", "fff");
+						if ($(this).attr("class") == "arrowBox")
+							$(this).css("visibility", "hidden");
+						if ($(this).attr("class") == "arrow")
+							$(this).css("opacity", "0.3");
+					});
+				}
 			});
 		});
 	}
