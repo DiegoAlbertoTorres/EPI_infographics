@@ -128,8 +128,12 @@ obj.addEventListener("load", function() {
 		animateTabs(directTab, indirectTab, arrow1Back, methodsTab, indicesTab, arrow2Back);
 		animateRef(references);
 		
-		
 		animateSlideBox(box91);
+		
+		var aqi = object.getElementById("AQI");
+		var openAqi = object.getElementById("openAQI");
+		var closeAqi = object.getElementById("closeAQI");
+		animateAQI(aqi, openAqi, closeAqi);
 
         // Change to direct emissions (layer 2)!
 
@@ -401,6 +405,79 @@ function animateTabs(tab1, tab2, arrow1Back, tab3, tab4, arrow4Back){
 		$(arrow4Back).css("fill", "#ffffff");
 		$(arrow4Back).css("visibility", "hidden");
 	});
+}
+
+function animateAQI(aqi, open, close){
+	
+	var del = 0;
+	var ddel = 0.2;
+	// 7 is number of levels
+	time = 7 * ddel;
+	$(aqi).children().each(function(){
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", "opacity");
+		initialHide.setAttribute("begin", "0s");
+		initialHide.setAttribute("to", "0");
+		$(this).append(initialHide);
+		
+		var showAQI = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		showAQI.setAttribute("attributeName", "opacity");
+		showAQI.setAttribute("attributeType", "XML");
+		showAQI.setAttribute("from", "0");
+		showAQI.setAttribute("to", "1");
+		showAQI.setAttribute("dur", "1s");
+		showAQI.setAttribute("begin", addDelay("openAQI.click", del));
+		showAQI.setAttribute("end", "closeAQI.click");
+		showAQI.setAttribute("fill", "freeze");
+		$(this).append(showAQI);
+		
+		var hideAQI = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		hideAQI.setAttribute("attributeName", "opacity");
+		hideAQI.setAttribute("attributeType", "XML");
+		hideAQI.setAttribute("from", "1");
+		hideAQI.setAttribute("to", "0");
+		hideAQI.setAttribute("dur", "1s");
+		hideAQI.setAttribute("begin", addDelay("closeAQI.click", time - del));
+		hideAQI.setAttribute("end", "closeAQI.click");
+		hideAQI.setAttribute("fill", "freeze");
+		$(this).append(hideAQI);
+		del += ddel;
+	});
+	
+	// Open
+	hoverColor(open);
+	var showOpen = document.createElementNS("http://www.w3.org/2000/svg","set");
+	showOpen.setAttribute("attributeName", "visibility");
+	showOpen.setAttribute("begin", "closeAQI.click");
+	showOpen.setAttribute("to", "visible");
+	$(open).append(showOpen);
+	
+	var hideOpen = document.createElementNS("http://www.w3.org/2000/svg","set");
+	hideOpen.setAttribute("attributeName", "visibility");
+	hideOpen.setAttribute("begin", $(open).attr("id") + ".click");
+	hideOpen.setAttribute("to", "hidden");
+	$(open).append(hideOpen);
+	
+	// Close
+	hoverColor(close);
+	var initHideClose = document.createElementNS("http://www.w3.org/2000/svg","set");
+	initHideClose.setAttribute("attributeName", "visibility");
+	initHideClose.setAttribute("begin", "0s");
+	initHideClose.setAttribute("to", "hidden");
+	$(close).append(initHideClose);
+	
+	var showClose = document.createElementNS("http://www.w3.org/2000/svg","set");
+	showClose.setAttribute("attributeName", "visibility");
+	showClose.setAttribute("begin", "openAQI.click");
+	showClose.setAttribute("to", "visible");
+	$(close).append(showClose);
+	
+	var hideClose = document.createElementNS("http://www.w3.org/2000/svg","set");
+	hideClose.setAttribute("attributeName", "visibility");
+	hideClose.setAttribute("begin", $(close).attr("id") + ".click");
+	hideClose.setAttribute("to", "hidden");
+	$(close).append(hideClose);
+	
 }
 
 function animateRef(ref){
@@ -1912,49 +1989,55 @@ function animateSlideBox(box){
 		$(this).append(show);
 	});
 	
-	// Arrow open
-	$(box).children("polygon.open").each(function(){
-		hoverColor($(this));
+	if ($(box).attr("arrows")){
+		// Arrow open
+		$(box).children("polygon.open").each(function(){
+			hoverColor($(this));
+			
+			var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			hide.setAttribute("attributeName", "visibility");
+			hide.setAttribute("to", "hidden");
+			hide.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
+			hide.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
+			hide.setAttribute("repeatCount", "indefinite");
+			$(this).append(hide);
+			
+			var show = document.createElementNS("http://www.w3.org/2000/svg","set");
+			show.setAttribute("attributeName", "visibility");
+			show.setAttribute("to", "visible");
+			show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
+			show.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
+			show.setAttribute("repeatCount", "indefinite");
+			$(this).append(show);
+		});
 		
-		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
-		hide.setAttribute("attributeName", "visibility");
-		hide.setAttribute("to", "hidden");
-		hide.setAttribute("begin", $(this).attr("id") + ".click");
-		hide.setAttribute("repeatCount", "indefinite");
-		$(this).append(hide);
-		
-		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
-		show.setAttribute("attributeName", "visibility");
-		show.setAttribute("to", "visible");
-		show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
-		show.setAttribute("repeatCount", "indefinite");
-		$(this).append(show);
-	});
-	
-	// Arrow close
-	$(box).children("polygon.close").each(function(){
-		hoverColor($(this));
-		
-		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
-		initialHide.setAttribute("attributeName", "visibility");
-		initialHide.setAttribute("to", "hidden");
-		initialHide.setAttribute("begin", "0s");
-		$(this).append(initialHide);
-		
-		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
-		hide.setAttribute("attributeName", "visibility");
-		hide.setAttribute("to", "hidden");
-		hide.setAttribute("begin", $(this).attr("id") + ".click");
-		hide.setAttribute("repeatCount", "indefinite");
-		$(this).append(hide);
-		
-		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
-		show.setAttribute("attributeName", "visibility");
-		show.setAttribute("to", "visible");
-		show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
-		show.setAttribute("repeatCount", "indefinite");
-		$(this).append(show);
-	});
+		// Arrow close
+		$(box).children("polygon.close").each(function(){
+			hoverColor($(this));
+			
+			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			initialHide.setAttribute("attributeName", "visibility");
+			initialHide.setAttribute("to", "hidden");
+			initialHide.setAttribute("begin", "0s");
+			$(this).append(initialHide);
+			
+			var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			hide.setAttribute("attributeName", "visibility");
+			hide.setAttribute("to", "hidden");
+			hide.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
+			hide.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
+			hide.setAttribute("repeatCount", "indefinite");
+			$(this).append(hide);
+			
+			var show = document.createElementNS("http://www.w3.org/2000/svg","set");
+			show.setAttribute("attributeName", "visibility");
+			show.setAttribute("to", "visible");
+			show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
+			show.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
+			show.setAttribute("repeatCount", "indefinite");
+			$(this).append(show);
+		});
+	}
 }
 
 function animateNum(num, boxId){
