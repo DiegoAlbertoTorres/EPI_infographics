@@ -20,8 +20,16 @@
 </html>
 
 <script type="text/javascript">
-	
-var partPath = "m 0,0 c 80.5444,96.02048 203.66093,160.40609 330.45323,156.60538 44.5635,-8.76956 85.10529,-31.19547 124.35879,-53.21138 29.59491,23.7134 21.24159,-40.30618 -2.14095,-12.2517 -1.49648,39.50339 49.17312,-4.67982 6.29454,-6.43938 -23.2738,23.09 24.73025,31.88606 18.52272,4.12579 22.53751,-8.02552 50.51069,-28.04033 56.61489,-42.81904 19.38658,31.68482 4.38064,-8.63315 14.28618,-6.90991 17.92959,29.22682 5.46898,-9.0057 15.87913,-6.06069 14.28831,18.18978 14.1902,8.75582 7.13184,-6.43008 28.89034,5.24436 76.1174,-12.77014 99.75734,22.86746 12.92036,13.15394 51.73293,59.81227 12.93182,59.42054 -20.66296,10.92869 49.90338,5.49825 13.50994,17.37687 -32.35415,6.24841 6.51721,11.30869 18.00338,13.8429 -4.41426,6.86754 -44.76337,9.49312 -13.83404,17.6508 15.86678,23.56075 15.78067,63.18902 17.43647,92.93205 -46.73812,0.81877 -42.54623,62.94537 4.13714,56.52385 42.65213,-1.85678 26.22763,-67.4201 -8.61113,-52.53707 -14.73233,38.10461 12.21928,81.32747 -6.9266,118.48365 -25.01284,30.02257 -74.48108,4.38469 -99.5097,35.60021 -1.36053,26.80974 -45.17268,-1.38837 -30.84574,26.75389 28.21383,12.94783 10.25812,-32.85814 -3.42342,-8.25202 16.92624,32.89936 29.44494,-24.24423 -0.33649,-2.63638 1.88532,26.85618 -16.24411,58.49971 -11.74756,90.12729 3.55425,18.37065 -5.25031,21.9643 -19.40191,24.58732 5.85849,8.64315 50.33404,4.36581 15.89339,11.39592 -36.01987,6.70608 6.79747,6.14449 17.63279,10.8925 -11.00554,7.87819 -48.31545,-1.46123 -23.80405,17.86335 2.42711,12.27214 -0.73862,24.84169 6.85696,36.21186";
+
+//var password = prompt("Enter password: ");
+//while (password != "infographics" && password != null && password != '')
+//{
+	//password = prompt("Wrong password. Please try again.");
+//}
+//if (password == "infographics")
+	//$('body').show();
+
+var partPath = "m 1600,0 c 80.5444,96.02048 203.66093,160.40609 330.45323,156.60538 44.5635,-8.76956 85.10529,-31.19547 124.35879,-53.21138 29.59491,23.7134 21.24159,-40.30618 -2.14095,-12.2517 -1.49648,39.50339 49.17312,-4.67982 6.29454,-6.43938 -23.2738,23.09 24.73025,31.88606 18.52272,4.12579 22.53751,-8.02552 50.51069,-28.04033 56.61489,-42.81904 19.38658,31.68482 4.38064,-8.63315 14.28618,-6.90991 17.92959,29.22682 5.46898,-9.0057 15.87913,-6.06069 14.28831,18.18978 14.1902,8.75582 7.13184,-6.43008 28.89034,5.24436 76.1174,-12.77014 99.75734,22.86746 12.92036,13.15394 51.73293,59.81227 12.93182,59.42054 -20.66296,10.92869 49.90338,5.49825 13.50994,17.37687 -32.35415,6.24841 6.51721,11.30869 18.00338,13.8429 -4.41426,6.86754 -44.76337,9.49312 -13.83404,17.6508 15.86678,23.56075 15.78067,63.18902 17.43647,92.93205 -46.73812,0.81877 -42.54623,62.94537 4.13714,56.52385 42.65213,-1.85678 26.22763,-67.4201 -8.61113,-52.53707 -14.73233,38.10461 12.21928,81.32747 -6.9266,118.48365 -23.31832,30.12225 -49.74137,5.83997 -99.5097,35.60021 -27.59193,20.96311 -37.26671,0.0491 -30.84574,26.75389 28.21383,12.94783 10.25812,-32.85814 -3.42342,-8.25202 16.92624,32.89936 29.44494,-24.24423 -0.33649,-2.63638 1.88532,26.85618 -16.24411,58.49971 -11.74756,90.12729 3.55425,18.37065 -5.25031,21.9643 -19.40191,24.58732 5.85849,8.64315 50.33404,4.36581 15.89339,11.39592 -36.01987,6.70608 6.79747,6.14449 17.63279,10.8925 -11.00554,7.87819 -48.31545,-1.46123 -23.80405,17.86335 2.42711,12.27214 -0.73862,24.84169 6.85696,36.21186";
 
 var dirtPath = "m 0,0 c 190.9316,51.57138 161.6928,-198.04896 283.4731,-123.88605 84.0424,57.98917 146.0402,89.65146 183.0219,53.25562 135.12579,-132.98498 183.56848,-24.48622 190.92532,39.11663";
 
@@ -61,6 +69,8 @@ obj.addEventListener("load", function() {
         // Tabs
         var directTab = object.getElementById("directTab");
         var indirectTab = object.getElementById("indirectTab");
+        var methodsTab = object.getElementById("methodsTab");
+        var indicesTab = object.getElementById("indicesTab");
         
         // Text boxes
         var box_recomm = object.getElementById("box_recomm");
@@ -69,6 +79,7 @@ obj.addEventListener("load", function() {
         var arrow3 = object.getElementById("arrowElement3");
         var arrow4 = object.getElementById("arrowElement4");
         var arrow1Back = object.getElementById("arrow1Back");
+        var arrow2Back = object.getElementById("arrow4Back");
 
         var goback2 = object.getElementById("goback2");
         var goback3 = object.getElementById("goback3");
@@ -77,6 +88,9 @@ obj.addEventListener("load", function() {
         var goback6 = object.getElementById("goback6");
         var goback7 = object.getElementById("goback7");
         var goback8 = object.getElementById("goback8");
+        var goback9 = object.getElementById("goback9");
+        
+        var box91 = object.getElementById("box/9/1");
         
         var mapBox = object.getElementById("mapBox");
         
@@ -99,19 +113,23 @@ obj.addEventListener("load", function() {
 		hoverColor(goback6);
 		hoverColor(goback7);
 		hoverColor(goback8);
+		hoverColor(goback9);
 		
 		hoverColor(box_recomm);
 		//~ hoverColor(arrow1);
 		hoverColor(arrow2);
 		hoverColor(arrow3);
-		hoverColor(arrow4);
+		//hoverColor(arrow4);
 
 		// Satellite
         //~ animateOrbit(satellite, satOrbit);
 
 		animateClipPaths();
-		animateTabs(directTab, indirectTab, arrow1Back);
+		animateTabs(directTab, indirectTab, arrow1Back, methodsTab, indicesTab, arrow2Back);
 		animateRef(references);
+		
+		
+		animateSlideBox(box91);
 
         // Change to direct emissions (layer 2)!
 
@@ -207,12 +225,12 @@ obj.addEventListener("load", function() {
 		// Change to monitoring (layer 6)!
 		// Animate exit of layer 1
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "satellite.click; arrowElement4.click", "goback6.click");
+			animateExit($(this), "satellite.click; methodsTab.click", "goback6.click");
 		});
 
 		// Animate entrance of layer 6
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateEnter($(this), "satellite.click; arrowElement4.click", "goback6.click");
+			animateEnter($(this), "satellite.click; methodsTab.click", "goback6.click");
 		});
 		
 		animateSat(satellite);
@@ -239,11 +257,11 @@ obj.addEventListener("load", function() {
 
 		// Animate exit of layer 6 and reentry of layer 1
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateExit($(this), "goback6.click", "satellite.click; arrowElement4.click");
+			animateExit($(this), "goback6.click", "satellite.click; methodsTab.click");
 		});
 
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback6.click", "satellite.click; arrowElement4.click");
+			animateReenter($(this), "goback6.click", "satellite.click; methodsTab.click");
 		});
 		
 		// Change to recommendations (layer 7)!
@@ -286,23 +304,102 @@ obj.addEventListener("load", function() {
 		});
 
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback8.click", "box_recomm.click");
+			animateReenter($(this), "goback8.click", "arrowElement2.click");
+		});
+		
+		// Change to indices (layer 9)!
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateExit($(this), "indicesTab.click", "goback9.click");
+		});
+		// Animate entrance of layer 9
+		$(object.getElementsByClassName("layer9")).each(function(){
+			animateEnter($(this), "indicesTab.click", "goback9.click");
+		});
+		animatePart(movingPart, nose, throat, diseases, lungProbs);
+
+		// Animate exit of layer 8 and reentry of layer 1
+		$(object.getElementsByClassName("layer9")).each(function(){
+			animateExit($(this), "goback9.click", "indicesTab.click");
+		});
+
+		$(object.getElementsByClassName("layer1")).each(function(){
+			animateReenter($(this), "goback9.click", "indicesTab.click");
 		});
 });
 
-function animateTabs(tab1, tab2, arrow1Back){
+function animateTabs(tab1, tab2, arrow1Back, tab3, tab4, arrow4Back){
 	$(tab1).attr("cursor", "pointer").attr("pointer-events", "auto");
 	$(tab2).attr("cursor", "pointer").attr("pointer-events", "auto");
+	$(tab3).attr("cursor", "pointer").attr("pointer-events", "auto");
+	$(tab4).attr("cursor", "pointer").attr("pointer-events", "auto");
 	
 	$(arrow1Back).css("visibility", "hidden");
+	$(arrow4Back).css("visibility", "hidden");
 	
-	$(tab1).add(tab2).hover(function(){
+	// Direct
+	var warped = obj.contentDocument.getElementById("warped_city");
+	$(tab1).hover(function(){
 		$(arrow1Back).css("fill", "#2bc0d2");
 		$(arrow1Back).css("visibility", "visible");
+		$(warped).find("path").each(function(){
+			var origFill = colorToHex($(this).css("fill"));
+			$(this).attr("origFill", origFill);
+			$(this).css("fill" , colMult("#2bc0d2", origFill));
+		});
 	},
 	function() {
 		$(arrow1Back).css("fill", "#ffffff");
 		$(arrow1Back).css("visibility", "hidden");
+		$(warped).find("path").each(function(){
+			$(this).css("fill" , $(this).attr("origFill"));
+		});
+	});
+	
+	// Indirect
+	var clouds = obj.contentDocument.getElementById("clouds");
+	$(tab2).hover(function(){
+		$(arrow1Back).css("fill", "#2bc0d2");
+		$(arrow1Back).css("visibility", "visible");
+		$(clouds).find("path").each(function(){
+			var origFill = colorToHex($(this).css("fill"));
+			$(this).attr("origFill", origFill);
+			$(this).css("fill" , colMult("#2bc0d2", origFill));
+		});
+	},
+	function() {
+		$(arrow1Back).css("fill", "#ffffff");
+		$(arrow1Back).css("visibility", "hidden");
+		$(clouds).find("path").each(function(){
+			$(this).css("fill" , $(this).attr("origFill"));
+		});
+	});
+	
+	// Methods
+	var sat = obj.contentDocument.getElementById("satellite");
+	$(tab3).hover(function(){
+		$(arrow4Back).css("fill", "#2bc0d2");
+		$(arrow4Back).css("visibility", "visible");
+		$(sat).find("path, rect, circle").each(function(){
+			var origFill = colorToHex($(this).css("fill"));
+			$(this).attr("origFill", origFill);
+			$(this).css("fill" , colMult("#2bc0d2", origFill));
+		});
+	},
+	function() {
+		$(arrow4Back).css("fill", "#ffffff");
+		$(arrow4Back).css("visibility", "hidden");
+		$(sat).find("path, rect, circle").each(function(){
+			$(this).css("fill" , $(this).attr("origFill"));
+		});
+	});
+	
+	$(tab4).hover(function(){
+		$(arrow4Back).css("fill", "#2bc0d2");
+		$(arrow4Back).css("visibility", "visible");
+	},
+	function() {
+		$(arrow4Back).css("fill", "#ffffff");
+		$(arrow4Back).css("visibility", "hidden");
 	});
 }
 
@@ -324,10 +421,11 @@ function animateRef(ref){
 }
 
 function animateSat(sat){
+	when6 = "satellite.click; methodsTab.click";
 	// Layer 6
 	var move6 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 	move6.setAttribute("path", "m 0,0 -1040,-360");
-	move6.setAttribute("begin", "satellite.click");
+	move6.setAttribute("begin", when6);
 	move6.setAttribute("end", "goback6.click");
 	move6.setAttribute("dur", "1s");
 	move6.setAttribute("repeatCount", "1");
@@ -343,7 +441,7 @@ function animateSat(sat){
 	rot6.setAttribute("type", "rotate");
 	rot6.setAttribute("from", "0 " + cx + " " + cy);
 	rot6.setAttribute("to", "-90 " + cx + " " + cy);
-	rot6.setAttribute("begin", "satellite.click");
+	rot6.setAttribute("begin", when6);
 	rot6.setAttribute("end", "goback6.click");
 	rot6.setAttribute("dur", "1s");
 	rot6.setAttribute("repeatCount", "1");
@@ -354,7 +452,7 @@ function animateSat(sat){
 	var comeBack6 = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 	comeBack6.setAttribute("path", "m 0,0 1040,360");
 	comeBack6.setAttribute("begin", "goback6.click + 1s");
-	comeBack6.setAttribute("end", "satellite.click");
+	comeBack6.setAttribute("end", when6);
 	comeBack6.setAttribute("dur", "1s");
 	comeBack6.setAttribute("repeatCount", "1");
 	comeBack6.setAttribute("fill", "freeze");
@@ -367,7 +465,7 @@ function animateSat(sat){
 	rotBack6.setAttribute("from", "-90 " + cx + " " + cy);
 	rotBack6.setAttribute("to", "0 " + cx + " " + cy);
 	rotBack6.setAttribute("begin", "goback6.click + 1s");
-	rotBack6.setAttribute("end", "satellite.click");
+	rotBack6.setAttribute("end", when6);
 	rotBack6.setAttribute("dur", "1s");
 	rotBack6.setAttribute("repeatCount", "1");
 	rotBack6.setAttribute("fill", "freeze");
@@ -553,12 +651,12 @@ function animatePart(part, nose, throat, diseases, lungProbs){
 	end = "goback8.click";
 	var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 	move.setAttribute("path", partPath);
-	move.setAttribute("begin", when + " + 1.5s");
+	move.setAttribute("begin", addDelay(when, 1.5));
 	move.setAttribute("id", "partMove");
 	move.setAttribute("end", end);
 	move.setAttribute("dur", "10s");
 	move.setAttribute("repeatCount", "1");
-	move.setAttribute("additive", "sum");
+	move.setAttribute("additive", "replace");
 	move.setAttribute("fill", "freeze");
 	move.setAttribute("repeatCount", "1");
 	$(part).append(move);
@@ -596,7 +694,7 @@ function animatePart(part, nose, throat, diseases, lungProbs){
 		subAnim.setAttribute("from", $(this).attr("origR"));
 		subAnim.setAttribute("to", 3);
 		subAnim.setAttribute("dur", "3s");
-		subAnim.setAttribute("begin", when + " + 9s");
+		subAnim.setAttribute("begin", addDelay(when, 9));
 		subAnim.setAttribute("end", end);
 		subAnim.setAttribute("fill", "freeze");
 		//~ subAnim.setAttribute("additive", "sum");
@@ -784,10 +882,16 @@ function hoverColor(object){
 			});
 		});
 	}
-	else if ($(object)[0].attributes.class && $(object)[0].attributes.class.value == "arrowElement"){
+	else if ($(object).attr("class") == "arrowElement"){
 		$(object).find("path.arrowBox").each(function(){
 			$(this).css("visibility", "hidden");
 		});
+		var complement = 0;
+		if ($(object).attr("id") == "arrowElement2")
+			complement = obj.contentDocument.getElementById("health");
+		else if ($(object).attr("id") == "arrowElement3")
+			complement = obj.contentDocument.getElementById("earth_outline");
+		
 		$(object).hover(function(){
 			$(object).find("path").each(function(){
 				var origFill = colorToHex($(this).css("fill"));
@@ -800,6 +904,13 @@ function hoverColor(object){
 					$(this).css("visibility", "visible");
 				if ($(this).attr("class") == "arrow")
 					$(this).css("opacity", "1");
+					
+				if (complement){
+					//console.log(complement);
+					$(complement).find("path, circle").addBack("path, circle").each(function(){
+						$(this).css("fill", "#2bc0d2");
+					});
+				}
 			});
 		},
 		function() {
@@ -809,6 +920,13 @@ function hoverColor(object){
 					$(this).css("visibility", "hidden");
 				if ($(this).attr("class") == "arrow")
 					$(this).css("opacity", "0.3");
+					
+				if (complement){
+					//console.log(complement);
+					$(complement).find("path, circle").addBack("path, circle").each(function(){
+						$(this).css("fill", "#fff");
+					});
+				}
 			});
 		});
 	}
@@ -1000,7 +1118,7 @@ function animateEnter(obj, when, end){
 		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "1600,0");
-		move.setAttribute("begin", when);
+		move.setAttribute("begin", addDelay(when, delay));
 		move.setAttribute("end", end);
 		move.setAttribute("dur", "0.001s");
 		//~ move.setAttribute("additive", "sum");
@@ -1010,7 +1128,7 @@ function animateEnter(obj, when, end){
 
 		obj.find("circle").each(function(){
 			// Save original radius
-			$(this)[0].setAttribute("prevR", $(this)[0].attributes.r.value);
+			$(this).attr("prevR", $(this)[0].attributes.r.value);
 			// Make them invisibly small
 			var set = document.createElementNS("http://www.w3.org/2000/svg","set");
 			set.setAttribute("attributeName", "r");
@@ -1568,7 +1686,7 @@ function animateExit(obj, when, end){
 	// Special exceptions go here
 	if ((when == "earth.click; arrowElement3.click" && obj[0].attributes.id.value == "earth") ||
 		(when == "goback4.click" && obj[0].attributes.id.value == "earth") ||
-		(when == "satellite.click" && obj[0].attributes.id.value == "satellite") ||
+		(when == "satellite.click; methodsTab.click" && obj[0].attributes.id.value == "satellite") ||
 		(when == "box_recomm.click" && obj[0].attributes.id.value == "satellite") ||
 		(!obj[0].attributes.exitEffect)){
 		return;
@@ -1694,7 +1812,7 @@ function animateOrbit(sat, orbit){
 }
 
 function animateClipPaths(){
-	$(document.getElementById("svg-object").contentDocument.getElementsByClassName("clip")).each(function(){
+	$(obj.contentDocument.getElementsByClassName("clip")).each(function(){
 		var change = 98,
 			width = 646,
 			layer = $(this)[0].attributes.layer.value,
@@ -1748,8 +1866,95 @@ function animateClipPaths(){
 		show.setAttribute("fill", "freeze");
 		$(this).append(show);
 	});
+}
 
+function animateSlideBox(box){
+	var layer = $(box).attr("layer"),
+		boxId = $(box).attr("boxId"),
+		type = $(box).attr("type"),
+		attribute = "height";
+		
+	if (type == "vertical")
+		attribute = "height";
+	else if (type  == "horizontal")
+		attribute = "width";
+		
+	$(obj.contentDocument.getElementById("clip/" + layer + "/" + boxId)).each(function(){
+		var change = $(this).attr(attribute);
+		
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", attribute);
+		initialHide.setAttribute("begin", "0s");
+		initialHide.setAttribute("repeatCount", "indefinite");
+		initialHide.setAttribute("to", "0");
+		$(this).append(initialHide);
 
+		var hide = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		hide.setAttribute("attributeName", attribute);
+		hide.setAttribute("attributeType", "XML");
+		hide.setAttribute("from", "0");
+		hide.setAttribute("to", change);
+		hide.setAttribute("dur", "0.5s");
+		hide.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("fill", "freeze");
+		//hide.setAttribute("repeatCount", "indefinite");
+		$(this).append(hide);
+
+		var show = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		show.setAttribute("attributeName", attribute);
+		show.setAttribute("attributeType", "XML");
+		show.setAttribute("from", change);
+		show.setAttribute("to", "0");
+		show.setAttribute("dur", "0.5s");
+		show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
+		show.setAttribute("fill", "freeze");
+		//show.setAttribute("repeatCount", "indefinite");
+		$(this).append(show);
+	});
+	
+	// Arrow open
+	$(box).children("polygon.open").each(function(){
+		hoverColor($(this));
+		
+		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		hide.setAttribute("attributeName", "visibility");
+		hide.setAttribute("to", "hidden");
+		hide.setAttribute("begin", $(this).attr("id") + ".click");
+		hide.setAttribute("repeatCount", "indefinite");
+		$(this).append(hide);
+		
+		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
+		show.setAttribute("attributeName", "visibility");
+		show.setAttribute("to", "visible");
+		show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
+		show.setAttribute("repeatCount", "indefinite");
+		$(this).append(show);
+	});
+	
+	// Arrow close
+	$(box).children("polygon.close").each(function(){
+		hoverColor($(this));
+		
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", "visibility");
+		initialHide.setAttribute("to", "hidden");
+		initialHide.setAttribute("begin", "0s");
+		$(this).append(initialHide);
+		
+		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		hide.setAttribute("attributeName", "visibility");
+		hide.setAttribute("to", "hidden");
+		hide.setAttribute("begin", $(this).attr("id") + ".click");
+		hide.setAttribute("repeatCount", "indefinite");
+		$(this).append(hide);
+		
+		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
+		show.setAttribute("attributeName", "visibility");
+		show.setAttribute("to", "visible");
+		show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
+		show.setAttribute("repeatCount", "indefinite");
+		$(this).append(show);
+	});
 }
 
 function animateNum(num, boxId){
