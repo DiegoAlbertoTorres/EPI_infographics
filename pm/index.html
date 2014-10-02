@@ -90,7 +90,9 @@ obj.addEventListener("load", function() {
         var goback8 = object.getElementById("goback8");
         var goback9 = object.getElementById("goback9");
         
-        var box91 = object.getElementById("box/9/1");
+        //var box91 = object.getElementById("box/9/1");
+        //var box92 = object.getElementById("box/9/2");
+        //var box93 = object.getElementById("box/9/3");
         
         var mapBox = object.getElementById("mapBox");
         
@@ -121,14 +123,14 @@ obj.addEventListener("load", function() {
 		hoverColor(arrow3);
 		//hoverColor(arrow4);
 
-		// Satellite
-        //~ animateOrbit(satellite, satOrbit);
-
 		animateClipPaths();
 		animateTabs(directTab, indirectTab, arrow1Back, methodsTab, indicesTab, arrow2Back);
 		animateRef(references);
 		
-		animateSlideBox(box91);
+		// Animate slide boxes
+		$(object).find("[slidebox]").each(function(){
+			animateSlideBox($(this));
+		});
 		
 		var aqi = object.getElementById("AQI");
 		var openAqi = object.getElementById("openAQI");
@@ -1156,7 +1158,7 @@ function animateEnter(obj, when, end){
 	else if (effect == "fade"){
 		// Ugly hack to make text move into frame on click
 		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-		var types = "text, path, polyline, circle, image, polygon";
+		var types = "text, path, polyline, circle, image, polygon, tspan";
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "1600,0");
 		move.setAttribute("begin", addDelay(when,delay));
@@ -1807,10 +1809,10 @@ function animateExit(obj, when, end){
 	}
 	else if (effect == "fade"){
 		var fadeTime = 1;
+		var types = "text, path, polyline, circle, image, polygon, tspan";
+		
 		// Ugly hack to make text move into frame on click
 		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
-		var types = "text, path, polyline, circle, image, polygon";
-		
 		move.setAttribute("from", "0,0");
 		move.setAttribute("to", "-1600,0");
 		move.setAttribute("begin", addDelay(when, (fadeTime + exitDelay)));
@@ -1827,7 +1829,7 @@ function animateExit(obj, when, end){
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "opacity");
 			subAnim.setAttribute("attributeType", "XML");
-			//~ subAnim.setAttribute("from", origOpacity);
+			//subAnim.setAttribute("from", origOpacity);
 			subAnim.setAttribute("to", 0);
 			subAnim.setAttribute("dur", fadeTime + "s");
 			subAnim.setAttribute("begin", addDelay(when, exitDelay));
@@ -1956,15 +1958,20 @@ function animateSlideBox(box){
 	else if (type  == "horizontal")
 		attribute = "width";
 		
+	//console.log($(box)[0]);
+	
+	// Initial hide
+	$(obj.contentDocument.getElementById("clip/" + layer + "/" + boxId)).each(function(){	
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+			initialHide.setAttribute("attributeName", attribute);
+			initialHide.setAttribute("begin", "0s");
+			initialHide.setAttribute("repeatCount", "indefinite");
+			initialHide.setAttribute("to", "0");
+			$(this).append(initialHide);
+	});
+				
 	$(obj.contentDocument.getElementById("clip/" + layer + "/" + boxId)).each(function(){
 		var change = $(this).attr(attribute);
-		
-		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
-		initialHide.setAttribute("attributeName", attribute);
-		initialHide.setAttribute("begin", "0s");
-		initialHide.setAttribute("repeatCount", "indefinite");
-		initialHide.setAttribute("to", "0");
-		$(this).append(initialHide);
 
 		var hide = document.createElementNS("http://www.w3.org/2000/svg","animate");
 		hide.setAttribute("attributeName", attribute);
@@ -1988,56 +1995,60 @@ function animateSlideBox(box){
 		//show.setAttribute("repeatCount", "indefinite");
 		$(this).append(show);
 	});
-	
-	if ($(box).attr("arrows")){
-		// Arrow open
-		$(box).children("polygon.open").each(function(){
+
+	// Arrow open
+	$(box).children(".open").each(function(){
+		if($(this).is("polygon"))
 			hoverColor($(this));
-			
-			var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
-			hide.setAttribute("attributeName", "visibility");
-			hide.setAttribute("to", "hidden");
-			hide.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
-			hide.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
-			hide.setAttribute("repeatCount", "indefinite");
-			$(this).append(hide);
-			
-			var show = document.createElementNS("http://www.w3.org/2000/svg","set");
-			show.setAttribute("attributeName", "visibility");
-			show.setAttribute("to", "visible");
-			show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
-			show.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
-			show.setAttribute("repeatCount", "indefinite");
-			$(this).append(show);
-		});
+		else
+			$(this).attr("cursor", "pointer").attr("pointer-events", "auto");
 		
-		// Arrow close
-		$(box).children("polygon.close").each(function(){
+		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		hide.setAttribute("attributeName", "visibility");
+		hide.setAttribute("to", "hidden");
+		hide.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("repeatCount", "indefinite");
+		$(this).append(hide);
+		
+		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
+		show.setAttribute("attributeName", "visibility");
+		show.setAttribute("to", "visible");
+		show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
+		show.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
+		show.setAttribute("repeatCount", "indefinite");
+		$(this).append(show);
+	});
+	
+	// Arrow close
+	$(box).children(".close").each(function(){
+		if($(this).is("polygon"))
 			hoverColor($(this));
-			
-			var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
-			initialHide.setAttribute("attributeName", "visibility");
-			initialHide.setAttribute("to", "hidden");
-			initialHide.setAttribute("begin", "0s");
-			$(this).append(initialHide);
-			
-			var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
-			hide.setAttribute("attributeName", "visibility");
-			hide.setAttribute("to", "hidden");
-			hide.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
-			hide.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
-			hide.setAttribute("repeatCount", "indefinite");
-			$(this).append(hide);
-			
-			var show = document.createElementNS("http://www.w3.org/2000/svg","set");
-			show.setAttribute("attributeName", "visibility");
-			show.setAttribute("to", "visible");
-			show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
-			show.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
-			show.setAttribute("repeatCount", "indefinite");
-			$(this).append(show);
-		});
-	}
+		else
+			$(this).attr("cursor", "pointer").attr("pointer-events", "auto");
+		
+		var initialHide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		initialHide.setAttribute("attributeName", "visibility");
+		initialHide.setAttribute("to", "hidden");
+		initialHide.setAttribute("begin", "0s");
+		$(this).append(initialHide);
+		
+		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
+		hide.setAttribute("attributeName", "visibility");
+		hide.setAttribute("to", "hidden");
+		hide.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("repeatCount", "indefinite");
+		$(this).append(hide);
+		
+		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
+		show.setAttribute("attributeName", "visibility");
+		show.setAttribute("to", "visible");
+		show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
+		show.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
+		show.setAttribute("repeatCount", "indefinite");
+		$(this).append(show);
+	});
 }
 
 function animateNum(num, boxId){
