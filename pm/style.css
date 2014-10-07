@@ -23,18 +23,14 @@ object{
 
 #mapFrame{
 	position: absolute;
+/*
 	width: 100%;
 	height: 100%;
+*/
+	margin: 0 auto;
 	top: 0px;
 	left: 0px;
 	display: none;
-/*
-	top: 0%;
-	left: 15.4%;
-	margin: auto auto auto auto;
-	width: 69.1%;
-	height: 86%;
-*/
 }
 
 #mapGoBack {
@@ -47,10 +43,13 @@ object{
 	line-height: 0;
 	cursor: pointer;
 	display: none;
+	margin: 0 auto;
 	
 	position: absolute;
-	left: 95%;
+/*
+	left: 10%;
 	top: 85%;
+*/
 }
 
 
