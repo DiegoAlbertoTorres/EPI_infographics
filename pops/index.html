@@ -69,21 +69,8 @@ obj.addEventListener("load", function() {
 			});
 		});
         
-		// Set map dimensions
-		var mapFrame = document.getElementById("mapFrame");
-		$(mapFrame).width($(document).height() * 1.394);
-		$(mapFrame).height($(document).height() * 0.854);
-		$(mapFrame).css("left", "50%");
-		$(mapFrame).css("margin-left", $(mapFrame).width() * - 0.5);
-		
-		var mapGoBack = document.getElementById("mapGoBack");
-		$(mapGoBack).css("left", ($(document).width() / 2) + ($(mapFrame).width() / 2) - 50);
-		$(mapGoBack).css("top", $(mapFrame).height() - 90);
-		
-        
-        var mapBox = object.getElementById("mapBox");
-        
         var references = object.getElementById("references");
+        var references2 = object.getElementById("references2");
         
         var layer1_headers = object.getElementById("layer1_headers");
         
@@ -112,8 +99,10 @@ obj.addEventListener("load", function() {
 		hoverColor(arrow5);
 
 		animateClipPaths();
-		animateRef(references);
+		animateRef(references, "http://epi.yale.edu");
+		animateRef(references2, "http://epi.yale.edu");
 		
+		// General effects
 		// Animate slide boxes
 		$(object).find("[slidebox]").each(function(){
 			animateSlideBox($(this));
@@ -123,7 +112,44 @@ obj.addEventListener("load", function() {
 		$(object).find("[arrowAnim]").each(function(){
 			animateArrowAnim($(this));
 		});
-
+			
+		// The pops map
+		var mapBox = object.getElementById("mapBox");
+		var mapBg = object.getElementById("mapBG");
+		//~hoverColor(mapBg);
+		$(mapBg).attr("cursor", "pointer").attr("pointer-events", "auto");
+		
+		// Set map dimensions
+		var mapFrame = document.getElementById("mapFrame");
+		$(mapFrame).width($(document).height() * 1.394);
+		$(mapFrame).height($(document).height() * 0.854);
+		$(mapFrame).css("left", "50%");
+		$(mapFrame).css("margin-left", $(mapFrame).width() * - 0.5);
+		
+		var mapGoBack = document.getElementById("mapGoBack");
+		$(mapGoBack).css("left", ($(document).width() / 2) - ($(mapFrame).width() / 2) + 50);
+		//~$(mapGoBack).css("top", $(mapFrame).height() - 90);
+		
+		$(mapBg).click(function(){
+			// Insert iframe at abs on top of document
+			var mapFrame = document.getElementById("mapFrame");
+			var mapGoBack = document.getElementById("mapGoBack");
+			
+			$(mapFrame).fadeIn(1000);
+			$(mapGoBack).fadeIn(1000);
+			
+			$(mapGoBack).hover(function(){
+				$(this).css("border-right", "40px solid #2bc0d2");
+			},
+			function() {
+				$(this).css("border-right", "40px solid #627cbf");
+			});
+			$(mapGoBack).click(function(){
+				$(mapGoBack).fadeOut(1000);
+				$(mapFrame).fadeOut(1000);
+			});
+		});
+		
         // Change to layer 2 (transformation of layer 1)!
 
 		// Animate entrance of layer2
@@ -644,7 +670,7 @@ function animateBubble(bubble){
 	appendUnvis(bubble, "plane_bubble.click + 1s", "plane2.click + 1s")
 }
 
-function animateRef(ref){
+function animateRef(ref, url){
 	$(ref).hover(function(){
 		$(ref).find("text").each(function(){
 			$(this).css("fill", highlightColor);
@@ -657,7 +683,7 @@ function animateRef(ref){
 	});
 	$(ref).attr("cursor", "pointer").attr("pointer-events", "auto");
 	$(ref).click(function(){
-		window.location = "http://www.sciencedirect.com/science/article/pii/S1352231013006250";
+		window.location = url;
 	});
 }
 
@@ -1768,6 +1794,9 @@ function animateNum(num, boxId){
 function colMult(col1, col2){
 	col1 = hexToRgb(col1);
 	col2 = hexToRgb(col2);
+	
+	if (col1 == null || col2 == null)
+		return "#fff";
 
 	return rgbToHex(parseInt(col1.r * col2.r / 255), parseInt(col1.g * col2.g / 255), parseInt(col1.b * col2.b / 255));
 }
@@ -1791,10 +1820,15 @@ function hexToRgb(hex) {
 }
 
 function colorToHex(color) {
+	if (color === undefined)
+		return "#fff";
     if (color.substr(0, 1) === '#') {
         return color;
     }
     var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+    
+    if (digits == null)
+		return "#fff";
 
     var red = parseInt(digits[2]);
     var green = parseInt(digits[3]);

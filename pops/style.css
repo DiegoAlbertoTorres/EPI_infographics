@@ -29,7 +29,7 @@ object{
 	height: 0; 
 	border-bottom: 40px solid transparent;  /* left arrow slant */
 	border-top: 40px solid transparent; /* right arrow slant */
-	border-right: 40px solid #f5c714; /* bottom, add background color here */
+	border-right: 40px solid #627cbf; /* bottom, add background color here */
 	font-size: 0;
 	line-height: 0;
 	cursor: pointer;
