@@ -43,6 +43,9 @@ obj.addEventListener("load", function() {
 		var bird1 = object.getElementById("bird1");
 		var fish1 = object.getElementById("fish1");
 		var layer1_background = object.getElementById("layer1_background");
+		var plane_bubble = object.getElementById("plane_bubble");
+		var plane2 = object.getElementById("plane2");
+		var bars = object.getElementById("bars");
 		
         var goback2 = object.getElementById("goback2");
         var goback3 = object.getElementById("goback3");
@@ -81,6 +84,8 @@ obj.addEventListener("load", function() {
         var mapBox = object.getElementById("mapBox");
         
         var references = object.getElementById("references");
+        
+        var layer1_headers = object.getElementById("layer1_headers");
         
         var arrows = object.getElementById("arrows");
         var arrow1 = object.getElementById("arrowElement1");
@@ -126,8 +131,9 @@ obj.addEventListener("load", function() {
 			animateEnter($(this), "arrowElement1.click", "goback2.click");
 		});
 		
-		// Arrows exit
+		// Arrows and header exit
 		animateExit($(arrows), "arrowElement1.click", "goback2.click");
+		animateExit($(layer1_headers), "arrowElement1.click", "goback2.click");
 
 		// Layer 2 effects
 		moveGrow(tractor1, "arrowElement1.click", "goback2.click", -800, -255, 1.5, 1.5);
@@ -139,7 +145,9 @@ obj.addEventListener("load", function() {
 			animateExit($(this), "goback2.click", "arrowElement1.click");
 		});
 		
+		// Arrows and header reenter
 		animateReenter($(arrows), "goback2.click", "arrowElement1.click");
+		animateReenter($(layer1_headers), "goback2.click", "arrowElement1.click");
 		
 		// Change to layer 3
 
@@ -226,6 +234,10 @@ obj.addEventListener("load", function() {
 			animateExit($(this), "arrowElement5.click", "goback6.click");
 		});
 		
+		// Layer 6 effects
+		animateBubble(plane_bubble);
+		hoverColor(plane2);
+		animateBars(bars);
 
 		// Animate exit of layer 6 and reentry of layer 1
 		$(object.getElementsByClassName("layer6")).each(function(){
@@ -238,6 +250,57 @@ obj.addEventListener("load", function() {
 		
 
 });
+
+function animateBars(bars){
+	$(bars).children().each(function(){
+		appendVertGrow($(this), "arrowElement5.click", "goback6.click");
+		moveToRight($(this), "arrowElement5.click", "goback6.click");
+		
+		appendVertShrink($(this), "goback6.click", "arrowElement5.click");
+		moveToLeft($(this), "goback6.click + 1s", "arrowElement5.click");
+	});
+
+}
+
+function appendVertGrow(obj, when, end){
+	var dur = 1;
+	var height = $(obj).attr("height");
+	
+	// Shrink first
+	initShrink = document.createElementNS("http://www.w3.org/2000/svg","set");
+	initShrink.setAttribute("attributeName", "height");
+	initShrink.setAttribute("begin", when);
+	initShrink.setAttribute("end", end);
+	initShrink.setAttribute("to", "0");
+	initShrink.setAttribute("repeatCount", "indefinite");
+	$(obj).append(initShrink);
+	
+	var grow = document.createElementNS("http://www.w3.org/2000/svg","animate");
+	grow.setAttribute("attributeName", "height");
+	grow.setAttribute("from", 0);
+	grow.setAttribute("to", height);
+	grow.setAttribute("dur", dur + "s");
+	grow.setAttribute("begin", when);
+	grow.setAttribute("end", end);
+	grow.setAttribute("fill", "freeze");
+	grow.setAttribute("additive", "replace");
+	$(obj).append(grow);
+}
+
+function appendVertShrink(obj, when, end){
+	var dur = 1;
+	var height = $(obj).attr("height");
+	
+	var grow = document.createElementNS("http://www.w3.org/2000/svg","animate");
+	grow.setAttribute("attributeName", "height");
+	grow.setAttribute("to", 0);
+	grow.setAttribute("dur", dur + "s");
+	grow.setAttribute("begin", when);
+	grow.setAttribute("end", end);
+	grow.setAttribute("fill", "freeze");
+	grow.setAttribute("additive", "replace");
+	$(obj).append(grow);
+}
 
 function animateBird(bird, fish){
 	when = "arrowElement1.click";
@@ -571,6 +634,16 @@ function moveGrow(obj, when, end, dx, dy, stretchX, stretchY){
 	$(obj).append(scale2);
 }
 
+function animateBubble(bubble){
+	setVisi(bubble, "0s", "hidden");
+	
+	appendFadeIn(bubble, "plane2.click", "", 1)
+	appendVis(bubble, "plane2.click", "")
+	
+	appendFadeOut(bubble, "plane_bubble.click", "plane2.click", 1);
+	appendUnvis(bubble, "plane_bubble.click + 1s", "plane2.click + 1s")
+}
+
 function animateRef(ref){
 	$(ref).hover(function(){
 		$(ref).find("text").each(function(){
@@ -673,44 +746,16 @@ function hoverColor(object){
 		});
 	}
 	else {
-		var complement = 0;
-		if ($(object).attr("id") == "warped_city")
-			complement = obj.contentDocument.getElementById("arrowElement1");
-		else if ($(object).attr("id") == "clouds")
-			complement = obj.contentDocument.getElementById("arrowElement1");
-		else if ($(object).attr("id") == "health")
-			complement = obj.contentDocument.getElementById("arrowElement2");
-		else if ($(object).attr("id") == "satellite")
-			complement = obj.contentDocument.getElementById("arrowElement4");
 		$(object).hover(function(){
 			$(object).find(types).each(function(){
 				var origFill = colorToHex($(this).css("fill"));
 				$(this)[0].attributes.origFill = origFill;
 				$(this).css("fill", colMult(origFill, highlightColor));
-				
-				if (complement){
-					$(complement).find("path").each(function(){
-						$(this).css("fill", colMult(origFill, highlightColor));
-						if ($(this).attr("class") == "arrowBox")
-							$(this).css("visibility", "visible");
-						if ($(this).attr("class") == "arrow")
-							$(this).css("opacity", "1");
-					});
-				}
 			});
 		},
 		function() {
 			$(object).find(types).each(function(){
 				$(this).css("fill", colorToHex($(this)[0].attributes.origFill));
-				if (complement){
-					$(complement).find("path").each(function(){
-						$(this).css("fill", "fff");
-						if ($(this).attr("class") == "arrowBox")
-							$(this).css("visibility", "hidden");
-						if ($(this).attr("class") == "arrow")
-							$(this).css("opacity", "0.3");
-					});
-				}
 			});
 		});
 	}
