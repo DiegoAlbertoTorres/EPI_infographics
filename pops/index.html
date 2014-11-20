@@ -27,6 +27,8 @@ while (password != "infographics" && password != null && password != '')
 if (password == "infographics")
 	$('body').show();
 
+$('body').show();
+
 var highlightColor = "#627cbf";
 
 var obj = document.getElementById("svg-object");
@@ -69,8 +71,11 @@ obj.addEventListener("load", function() {
 			});
 		});
         
-        var references = object.getElementById("references");
-        var references2 = object.getElementById("references2");
+		// Animate references
+		$(object).find("[reference]").each(function(){
+			animateRef($(this));
+		});
+		
         
         var layer1_headers = object.getElementById("layer1_headers");
         
@@ -80,6 +85,8 @@ obj.addEventListener("load", function() {
         var arrow3 = object.getElementById("arrowElement3");
         var arrow4 = object.getElementById("arrowElement4");
         var arrow5 = object.getElementById("arrowElement5");
+        
+        var references1 = object.getElementById("references1");
 
 		// Layer 1 effects
 
@@ -99,8 +106,6 @@ obj.addEventListener("load", function() {
 		hoverColor(arrow5);
 
 		animateClipPaths();
-		animateRef(references, "http://epi.yale.edu");
-		animateRef(references2, "http://epi.yale.edu");
 		
 		// General effects
 		// Animate slide boxes
@@ -121,14 +126,12 @@ obj.addEventListener("load", function() {
 		
 		// Set map dimensions
 		var mapFrame = document.getElementById("mapFrame");
-		$(mapFrame).width($(document).height() * 1.394);
-		$(mapFrame).height($(document).height() * 0.854);
-		$(mapFrame).css("left", "50%");
-		$(mapFrame).css("margin-left", $(mapFrame).width() * - 0.5);
-		
 		var mapGoBack = document.getElementById("mapGoBack");
-		$(mapGoBack).css("left", ($(document).width() / 2) - ($(mapFrame).width() / 2) + 50);
-		//~$(mapGoBack).css("top", $(mapFrame).height() - 90);
+		setMapDimensions(mapFrame, mapGoBack);
+		
+		$(window).resize(function(){
+			setMapDimensions(mapFrame, mapGoBack);
+		});
 		
 		$(mapBg).click(function(){
 			// Insert iframe at abs on top of document
@@ -160,6 +163,7 @@ obj.addEventListener("load", function() {
 		// Arrows and header exit
 		animateExit($(arrows), "arrowElement1.click", "goback2.click");
 		animateExit($(layer1_headers), "arrowElement1.click", "goback2.click");
+		animateExit($(references1), "arrowElement1.click", "goback2.click");
 
 		// Layer 2 effects
 		moveGrow(tractor1, "arrowElement1.click", "goback2.click", -800, -255, 1.5, 1.5);
@@ -172,6 +176,7 @@ obj.addEventListener("load", function() {
 		});
 		
 		// Arrows and header reenter
+		animateReenter($(references1), "goback2.click", "arrowElement1.click");
 		animateReenter($(arrows), "goback2.click", "arrowElement1.click");
 		animateReenter($(layer1_headers), "goback2.click", "arrowElement1.click");
 		
@@ -227,37 +232,37 @@ obj.addEventListener("load", function() {
 
 		// Animate entrance of layer 5
 		$(object.getElementsByClassName("layer5")).each(function(){
-			animateEnter($(this), "arrowElement4.click", "goback5.click");
+			animateEnter($(this), "arrowElement5.click", "goback5.click");
 		});
 		
 		// Layer 1 exit
 		$(object).find("[layer1_not5]").each(function(){
-			animateExit($(this), "arrowElement4.click", "goback5.click");
+			animateExit($(this), "arrowElement5.click", "goback5.click");
 		});
 		
 		// Layer 5 effects
-		moveGrow(layer1_background, "arrowElement4.click", "goback5.click", -1360, -350, 1.7, 1.7);
+		moveGrow(layer1_background, "arrowElement5.click", "goback5.click", -1360, -350, 1.7, 1.7);
 
 		// Animate exit of layer 5 and reentry of layer 1
 		$(object.getElementsByClassName("layer5")).each(function(){
-			animateExit($(this), "goback5.click", "arrowElement4.click");
+			animateExit($(this), "goback5.click", "arrowElement5.click");
 		});
 		
 		// Reenter layer 1
-		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback5.click", "arrowElement4.click");
+		$(object).find("[layer1_not5]").each(function(){
+			animateReenter($(this), "goback5.click", "arrowElement5.click");
 		});
 		
 		// Change to layer 6
 
 		// Animate entrance of layer 6
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateEnter($(this), "arrowElement5.click", "goback6.click");
+			animateEnter($(this), "arrowElement4.click", "goback6.click");
 		});
 		
 		// Layer 1 exit
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateExit($(this), "arrowElement5.click", "goback6.click");
+			animateExit($(this), "arrowElement4.click", "goback6.click");
 		});
 		
 		// Layer 6 effects
@@ -267,11 +272,11 @@ obj.addEventListener("load", function() {
 
 		// Animate exit of layer 6 and reentry of layer 1
 		$(object.getElementsByClassName("layer6")).each(function(){
-			animateExit($(this), "goback6.click", "arrowElement5.click");
+			animateExit($(this), "goback6.click", "arrowElement4.click");
 		});
 		
 		$(object.getElementsByClassName("layer1")).each(function(){
-			animateReenter($(this), "goback6.click", "arrowElement5.click");
+			animateReenter($(this), "goback6.click", "arrowElement4.click");
 		});
 		
 
@@ -279,11 +284,11 @@ obj.addEventListener("load", function() {
 
 function animateBars(bars){
 	$(bars).children().each(function(){
-		appendVertGrow($(this), "arrowElement5.click", "goback6.click");
-		moveToRight($(this), "arrowElement5.click", "goback6.click");
+		appendVertGrow($(this), "arrowElement4.click", "goback6.click");
+		moveToRight($(this), "arrowElement4.click", "goback6.click");
 		
-		appendVertShrink($(this), "goback6.click", "arrowElement5.click");
-		moveToLeft($(this), "goback6.click + 1s", "arrowElement5.click");
+		appendVertShrink($(this), "goback6.click", "arrowElement4.click");
+		moveToLeft($(this), "goback6.click + 1s", "arrowElement4.click");
 	});
 
 }
@@ -555,16 +560,16 @@ function animateArrowAnim(obj){
 		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
 		hide.setAttribute("attributeName", "visibility");
 		hide.setAttribute("to", "hidden");
-		hide.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
-		hide.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("begin", "open/" + layer + "/" + boxId + ".click + 1s");
+		hide.setAttribute("end", "close/" + layer + "/" + boxId + ".click + 1s");
 		hide.setAttribute("repeatCount", "indefinite");
 		$(this).append(hide);
 		
 		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
 		show.setAttribute("attributeName", "visibility");
 		show.setAttribute("to", "visible");
-		show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
-		show.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
+		show.setAttribute("begin", "close/" + layer + "/" + boxId + ".click + 1s");
+		show.setAttribute("end", "open/" + layer + "/" + boxId + ".click + 1s");
 		show.setAttribute("repeatCount", "indefinite");
 		$(this).append(show);
 	});
@@ -585,16 +590,16 @@ function animateArrowAnim(obj){
 		var hide = document.createElementNS("http://www.w3.org/2000/svg","set");
 		hide.setAttribute("attributeName", "visibility");
 		hide.setAttribute("to", "hidden");
-		hide.setAttribute("begin", "close/" + layer + "/" + boxId + ".click");
-		hide.setAttribute("end", "open/" + layer + "/" + boxId + ".click");
+		hide.setAttribute("begin", "close/" + layer + "/" + boxId + ".click + 1s");
+		hide.setAttribute("end", "open/" + layer + "/" + boxId + ".click + 1s");
 		hide.setAttribute("repeatCount", "indefinite");
 		$(this).append(hide);
 		
 		var show = document.createElementNS("http://www.w3.org/2000/svg","set");
 		show.setAttribute("attributeName", "visibility");
 		show.setAttribute("to", "visible");
-		show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click");
-		show.setAttribute("end", "close/" + layer + "/" + boxId + ".click");
+		show.setAttribute("begin", "open/" + layer + "/" + boxId + ".click + 1s");
+		show.setAttribute("end", "close/" + layer + "/" + boxId + ".click + 1s");
 		show.setAttribute("repeatCount", "indefinite");
 		$(this).append(show);
 	});
@@ -670,7 +675,15 @@ function animateBubble(bubble){
 	appendUnvis(bubble, "plane_bubble.click + 1s", "plane2.click + 1s")
 }
 
-function animateRef(ref, url){
+function setMapDimensions(mapFrame, mapGoBack){
+	$(mapFrame).width($(document).height() * 1.394);
+	$(mapFrame).height($(document).height() * 0.854);
+	$(mapFrame).css("left", "50%");
+	$(mapFrame).css("margin-left", $(mapFrame).width() * - 0.5);
+	$(mapGoBack).css("left", ($(document).width() / 2) - ($(mapFrame).width() / 2) + 50);
+}
+
+function animateRef(ref){
 	$(ref).hover(function(){
 		$(ref).find("text").each(function(){
 			$(this).css("fill", highlightColor);
@@ -683,7 +696,20 @@ function animateRef(ref, url){
 	});
 	$(ref).attr("cursor", "pointer").attr("pointer-events", "auto");
 	$(ref).click(function(){
-		window.location = url;
+		if ($(ref).attr("reference") == "1" || $(ref).attr("reference") == "3" || 
+			$(ref).attr("reference") == "4" || $(ref).attr("reference") == "5" || 
+			$(ref).attr("reference") == "7" || $(ref).attr("reference") == "8"){
+			window.open("http://www.sciencedirect.com/science/article/pii/S1352231013004408");
+			return;
+		}
+		else if ($(ref).attr("reference") == "2"){
+			window.open("https://www.aadnc-aandc.gc.ca/eng/1100100023458/1100100023475")
+			return;
+		}
+		else if ($(ref).attr("reference") == "6");{
+			window.open("http://www.pops.int");
+			return;
+		}
 	});
 }
 
@@ -788,6 +814,8 @@ function hoverColor(object){
 }
 
 function animateReenter(obj, when, end){
+	console.log(obj[0]);
+	
 	if ((when == "goback5.click" && obj[0].attributes.id.value == "layer1_all")) {
 		return;
 	}
@@ -822,6 +850,35 @@ function animateReenter(obj, when, end){
 		anim.setAttribute("repeatCount", "1");
 
 		obj.append(anim);
+	}
+	if (effect == "fade"){
+		// Make invisible
+		var set = document.createElementNS("http://www.w3.org/2000/svg","set");
+		set.setAttribute("attributeName", "opacity");
+		set.setAttribute("begin", when);
+		set.setAttribute("to", "0");
+		$(obj).append(set);
+		
+		var move = document.createElementNS("http://www.w3.org/2000/svg","animateMotion");
+		move.setAttribute("to", "1600,0");
+		move.setAttribute("begin", when);
+		move.setAttribute("end", end);
+		move.setAttribute("dur", "0.001s");
+		move.setAttribute("repeatCount", "1");
+		move.setAttribute("additive", "sum");
+		move.setAttribute("fill", "freeze");
+		$(obj).append(move);
+		
+		anim = document.createElementNS("http://www.w3.org/2000/svg","animate");
+		anim.setAttribute("attributeName", "opacity");
+		anim.setAttribute("from", "0");
+		anim.setAttribute("to", "1");
+		anim.setAttribute("begin", when + "+1s");
+		anim.setAttribute("end", end);
+		anim.setAttribute("dur", "1s");
+		anim.setAttribute("fill", "freeze");
+		anim.setAttribute("repeatCount", "1");
+		$(obj).append(anim);
 	}
 
 }
