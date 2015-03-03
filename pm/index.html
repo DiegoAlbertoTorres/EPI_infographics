@@ -24,13 +24,13 @@
 
 <script type="text/javascript">
 
-var password = prompt("Enter password: ");
-while (password != "infographics" && password != null && password != '')
-{
-	password = prompt("Wrong password. Please try again.");
-}
-if (password == "infographics")
-	$('body').show();
+//~var password = prompt("Enter password: ");
+//~while (password != "infographics" && password != null && password != '')
+//~{
+	//~password = prompt("Wrong password. Please try again.");
+//~}
+//~if (password == "infographics")
+	//~$('body').show();
 
 var partPath = "m 1600,0 c 80.5444,96.02048 203.66093,160.40609 330.45323,156.60538 44.5635,-8.76956 85.10529,-31.19547 124.35879,-53.21138 29.59491,23.7134 21.24159,-40.30618 -2.14095,-12.2517 -1.49648,39.50339 49.17312,-4.67982 6.29454,-6.43938 -23.2738,23.09 24.73025,31.88606 18.52272,4.12579 22.53751,-8.02552 50.51069,-28.04033 56.61489,-42.81904 19.38658,31.68482 4.38064,-8.63315 14.28618,-6.90991 17.92959,29.22682 5.46898,-9.0057 15.87913,-6.06069 14.28831,18.18978 14.1902,8.75582 7.13184,-6.43008 28.89034,5.24436 76.1174,-12.77014 99.75734,22.86746 12.92036,13.15394 51.73293,59.81227 12.93182,59.42054 -20.66296,10.92869 49.90338,5.49825 13.50994,17.37687 -32.35415,6.24841 6.51721,11.30869 18.00338,13.8429 -4.41426,6.86754 -44.76337,9.49312 -13.83404,17.6508 15.86678,23.56075 15.78067,63.18902 17.43647,92.93205 -46.73812,0.81877 -42.54623,62.94537 4.13714,56.52385 42.65213,-1.85678 26.22763,-67.4201 -8.61113,-52.53707 -14.73233,38.10461 12.21928,81.32747 -6.9266,118.48365 -23.31832,30.12225 -49.74137,5.83997 -99.5097,35.60021 -27.59193,20.96311 -37.26671,0.0491 -30.84574,26.75389 28.21383,12.94783 10.25812,-32.85814 -3.42342,-8.25202 16.92624,32.89936 29.44494,-24.24423 -0.33649,-2.63638 1.88532,26.85618 -16.24411,58.49971 -11.74756,90.12729 3.55425,18.37065 -5.25031,21.9643 -19.40191,24.58732 5.85849,8.64315 50.33404,4.36581 15.89339,11.39592 -36.01987,6.70608 6.79747,6.14449 17.63279,10.8925 -11.00554,7.87819 -48.31545,-1.46123 -23.80405,17.86335 2.42711,12.27214 -0.73862,24.84169 6.85696,36.21186";
 
@@ -1073,7 +1073,7 @@ function hoverColor(object){
 				$(this).css("fill", colorToHex($(this)[0].attributes.origFill));
 				if (complement){
 					$(complement).find("path").each(function(){
-						$(this).css("fill", "fff");
+						$(this).css("fill", "#fff");
 						if ($(this).attr("class") == "arrowBox")
 							$(this).css("visibility", "hidden");
 						if ($(this).attr("class") == "arrow")
@@ -1630,7 +1630,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "up/" + layer + "/" + boxId + ".click");
-					//set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "hidden");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1638,7 +1638,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "down/" + layer + "/" + boxId + ".click");
-					//set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "visible");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1647,7 +1647,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "down/" + layer + "/" + boxId + ".click");
-					//set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "up/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "hidden");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
@@ -1655,7 +1655,7 @@ function animateEnter(obj, when, end){
 					set = document.createElementNS("http://www.w3.org/2000/svg","set");
 					set.setAttribute("attributeName", "visibility");
 					set.setAttribute("begin", "up/" + layer + "/" + boxId + ".click");
-					//set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
+					set.setAttribute("end", "down/" + layer + "/" + boxId + ".click");
 					set.setAttribute("to", "visible");
 					set.setAttribute("repeatCount", "indefinite");
 					$(this).append(set);
