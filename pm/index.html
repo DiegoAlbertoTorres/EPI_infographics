@@ -1299,11 +1299,11 @@ function animateEnter(obj, when, end){
 			$(this).append(subAnim);
 		});
 
+		// Text and arrow (path) fade
 		obj.find("text, path").each(function(){
 			var rand = random(1);
 			if (!isRandom)
 				rand = 0;
-			// Text and arrow (path) fade
 
 			// Extra delay for arrows
 			var delay2 = ($(this)[0].nodeName == "path" || $(this)[0].nodeName == "text") ? 1.5 : 0;
@@ -1316,7 +1316,6 @@ function animateEnter(obj, when, end){
 			set.setAttribute("to", "0");
 			$(this).append(set);
 
-
 			var subAnim = document.createElementNS("http://www.w3.org/2000/svg","animate");
 			subAnim.setAttribute("attributeName", "opacity");
 			subAnim.setAttribute("attributeType", "XML");
@@ -1327,7 +1326,6 @@ function animateEnter(obj, when, end){
 			subAnim.setAttribute("end", end);
 			subAnim.setAttribute("fill", "freeze");
 			$(this).append(subAnim);
-
 		});
 	}
 	else if (effect == "fan"){
